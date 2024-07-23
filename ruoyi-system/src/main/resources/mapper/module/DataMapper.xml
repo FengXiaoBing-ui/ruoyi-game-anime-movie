@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.module.mapper.DataMapper">
+
+    <resultMap type="Data" id="DataResult">
+        <result property="id" column="id"/>
+        <result property="downLoadCount" column="down_load_count"/>
+        <result property="img" column="img"/>
+        <result property="title" column="title"/>
+        <result property="subhnamever" column="subhnamever"/>
+        <result property="subhname" column="subhname"/>
+        <result property="releaseDate" column="release_date"/>
+        <result property="developer" column="developer"/>
+        <result property="gameType" column="game_type"/>
+        <result property="score" column="score"/>
+        <result property="update" column="game_update"/>
+        <result property="descHeightImg" column="desc_height_img"/>
+        <result property="descImg" column="desc_img"/>
+        <result property="descVideo" column="desc_video"/>
+        <result property="movieMax" column="movie_max"/>
+        <result property="gameUrl" column="game_url"/>
+        <result property="minSpec" column="min_spec"/>
+        <result property="desc" column="game_desc"/>
+        <result property="chTitle" column="ch_title"/>
+        <result property="gameSize" column="game_size"/>
+    </resultMap>
+
+    <sql id="selectDataVo">
+        select id,
+               down_load_count,
+               img,
+               title,
+               subhnamever,
+               subhname,
+               release_date,
+               developer,
+               game_type,
+               score,
+               game_update,
+               desc_height_img,
+               desc_img,
+               desc_video,
+               game_url,
+               min_spec,
+               game_desc,
+               ch_title,
+               game_size,
+               movie_max
+        from data
+    </sql>
+
+    <select id="selectDataList" parameterType="Data" resultMap="DataResult">
+        <include refid="selectDataVo"/>
+        <where>
+            <if test="downLoadCount != null  and downLoadCount != ''">and down_load_count = #{downLoadCount}</if>
+            <if test="img != null  and img != ''">and img = #{img}</if>
+            <if test="title != null  and title != ''">and (title like concat('%', #{title}, '%') or ch_title like concat('%', #{title}, '%'))</if>
+            <if test="subhnamever != null  and subhnamever != ''">and subhnamever = #{subhnamever}</if>
+            <if test="subhname != null  and subhname != ''">and subhname like concat('%', #{subhname}, '%')</if>
+            <if test="releaseDate != null  and releaseDate != ''">and release_date = #{releaseDate}</if>
+            <if test="developer != null  and developer != ''">and developer = #{developer}</if>
+            <if test="gameType != null  and gameType != ''">and game_type = #{gameType}</if>
+            <if test="score != null  and score != ''">and score = #{score}</if>
+            <if test="update != null  and update != ''">and game_update = #{update}</if>
+            <if test="descHeightImg != null  and descHeightImg != ''">and desc_height_img = #{descHeightImg}</if>
+            <if test="descImg != null  and descImg != ''">and desc_img = #{descImg}</if>
+            <if test="descVideo != null  and descVideo != ''">and desc_video = #{descVideo}</if>
+            <if test="gameUrl != null  and gameUrl != ''">and game_url = #{gameUrl}</if>
+            <if test="minSpec != null  and minSpec != ''">and min_spec = #{minSpec}</if>
+            <if test="desc != null  and desc != ''">and game_desc like concat('%', #{desc}, '%')</if>
+            <if test="chTitle != null  and chTitle != ''">and ch_title like concat('%', #{chTitle}, '%')</if>
+            <if test="gameSize != null  and gameSize != ''">and game_size = #{gameSize}</if>
+            <if test="movieMax != null  and movieMax != ''">and movie_max = #{movieMax}</if>
+        </where>
+    </select>
+
+    <select id="selectDataById" parameterType="Long" resultMap="DataResult">
+        <include refid="selectDataVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertData" parameterType="Data" useGeneratedKeys="true" keyProperty="id">
+        insert into data
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="downLoadCount != null">down_load_count,</if>
+            <if test="img != null">img,</if>
+            <if test="title != null">title,</if>
+            <if test="subhnamever != null">subhnamever,</if>
+            <if test="subhname != null">subhname,</if>
+            <if test="releaseDate != null">release_date,</if>
+            <if test="developer != null">developer,</if>
+            <if test="gameType != null">game_type,</if>
+            <if test="score != null">score,</if>
+            <if test="update != null">game_update,</if>
+            <if test="descHeightImg != null">desc_height_img,</if>
+            <if test="descImg != null">desc_img,</if>
+            <if test="descVideo != null">desc_video,</if>
+            <if test="gameUrl != null">game_url,</if>
+            <if test="minSpec != null">min_spec,</if>
+            <if test="desc != null">game_desc,</if>
+            <if test="chTitle != null">ch_title,</if>
+            <if test="gameSize != null">game_size,</if>
+            <if test="movieMax != null">movie_max,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="downLoadCount != null">#{downLoadCount},</if>
+            <if test="img != null">#{img},</if>
+            <if test="title != null">#{title},</if>
+            <if test="subhnamever != null">#{subhnamever},</if>
+            <if test="subhname != null">#{subhname},</if>
+            <if test="releaseDate != null">#{releaseDate},</if>
+            <if test="developer != null">#{developer},</if>
+            <if test="gameType != null">#{gameType},</if>
+            <if test="score != null">#{score},</if>
+            <if test="update != null">#{update},</if>
+            <if test="descHeightImg != null">#{descHeightImg},</if>
+            <if test="descImg != null">#{descImg},</if>
+            <if test="descVideo != null">#{descVideo},</if>
+            <if test="gameUrl != null">#{gameUrl},</if>
+            <if test="minSpec != null">#{minSpec},</if>
+            <if test="desc != null">#{desc},</if>
+            <if test="chTitle != null">#{chTitle},</if>
+            <if test="gameSize != null">#{gameSize},</if>
+            <if test="movieMax != null">#{movieMax},</if>
+        </trim>
+    </insert>
+
+    <update id="updateData" parameterType="Data">
+        update data
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="downLoadCount != null">down_load_count = #{downLoadCount},</if>
+            <if test="img != null">img = #{img},</if>
+            <if test="title != null">title = #{title},</if>
+            <if test="subhnamever != null">subhnamever = #{subhnamever},</if>
+            <if test="subhname != null">subhname = #{subhname},</if>
+            <if test="releaseDate != null">release_date = #{releaseDate},</if>
+            <if test="developer != null">developer = #{developer},</if>
+            <if test="gameType != null">game_type = #{gameType},</if>
+            <if test="score != null">score = #{score},</if>
+            <if test="update != null">game_update = #{update},</if>
+            <if test="descHeightImg != null">desc_height_img = #{descHeightImg},</if>
+            <if test="descImg != null">desc_img = #{descImg},</if>
+            <if test="descVideo != null">desc_video = #{descVideo},</if>
+            <if test="gameUrl != null">game_url = #{gameUrl},</if>
+            <if test="minSpec != null">min_spec = #{minSpec},</if>
+            <if test="desc != null">game_desc = #{desc},</if>
+            <if test="chTitle != null">ch_title = #{chTitle},</if>
+            <if test="gameSize != null">game_size = #{gameSize},</if>
+            <if test="movieMax != null">movie_max = #{movieMax},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteDataById" parameterType="Long">
+        delete
+        from data
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteDataByIds" parameterType="String">
+        delete from data where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="selectDataByTitle" parameterType="Data" resultMap="DataResult">
+        <include refid="selectDataVo"/>
+        where title = #{title}
+    </select>
+
+</mapper>
