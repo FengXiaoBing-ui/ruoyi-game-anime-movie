@@ -59,4 +59,6 @@ public interface IAnimeChService
      * @return 结果
      */
     public int deleteAnimeChById(Long id);
+
+    List<AnimeCh> selectDataByTitle(String title);
 }

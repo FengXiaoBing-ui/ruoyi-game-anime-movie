@@ -5,8 +5,8 @@ import com.alibaba.fastjson2.JSONObject;
 import com.ruoyi.common.annotation.Anonymous;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
-import com.ruoyi.module.domain.Anime;
-import com.ruoyi.module.service.IAnimeService;
+import com.ruoyi.module.domain.AnimeCh;
+import com.ruoyi.module.service.IAnimeChService;
 import org.apache.commons.compress.utils.Lists;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -31,13 +31,13 @@ import java.util.Map;
  * @author ruoyi
  */
 @RestController
-@RequestMapping("/module/AnimeListController")
-public class AnimeListController extends BaseController {
+@RequestMapping("/module/AnimeChListController")
+public class AnimeChListController extends BaseController {
 
 //    public WebDriver webdriver;
 
     @Autowired
-    private IAnimeService dataService;
+    private IAnimeChService dataService;
 
     @Anonymous
     @GetMapping(value = "add")
@@ -52,8 +52,8 @@ public class AnimeListController extends BaseController {
     }
 
     private void getGameInfo() throws Exception {
-        Path p1 = Paths.get("ruoyi-admin/src","drivers","chromedriver.exe");
-        System.setProperty("webdriver.chrome.driver",p1.toString());
+        Path p1 = Paths.get("ruoyi-admin/src", "drivers", "chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", p1.toString());
 
         ChromeOptions options = new ChromeOptions();
 
@@ -67,7 +67,7 @@ public class AnimeListController extends BaseController {
 
         List<String> list = Lists.newArrayList();
 
-        String pageUrl = "https://www.857yhw.com/type/ribendongman.html";
+        String pageUrl = "https://www.857yhw.com/type/guochandongman.html";
         Document pageDoc = Jsoup.connect(pageUrl).userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36").data().get();
         Elements pages = pageDoc.select("ul.myui-page li a");
         String urlTotal = pages.last().attr("href");
@@ -82,9 +82,9 @@ public class AnimeListController extends BaseController {
 
             number = Integer.parseInt(numberOnly);
         }
-        System.out.println("日漫一共有---" + number + "页,");
+        System.out.println("国漫一共有---" + number + "页,每页有40条");
         for (int i = 1; i < number; i++) {
-            String url = "https://www.857yhw.com/type/ribendongman-" + i + ".html";
+            String url = "https://www.857yhw.com/type/guochandongman-" + i + ".html";
             Document doc = Jsoup.connect(url).userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36").data().get();
             Elements movies = doc.select("div.myui-panel div.myui-panel-box div.myui-panel_bd ul.myui-vodlist li");
             for (int j = 0; j < movies.size(); j++) {
@@ -111,9 +111,6 @@ public class AnimeListController extends BaseController {
                     Document movieEle = Jsoup.connect("https://www.857yhw.com" + playArr.get(playHref)).userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36").data().get();
                     Element scriptElement = movieEle.select("div.myui-player div.container div.row div.myui-player__item div.col-md-wide-75 div.myui-player__box div.embed-responsive script").first();
                     String scriptText = scriptElement.html().trim();
-                    if(scriptText==null){
-                        return;
-                    }
                     String cleanedJson = scriptText.replaceFirst("var player_aaaa=", "");
                     JSONObject jsonObject = JSONObject.parseObject(cleanedJson);
                     String baseUrl = "https://danmu.yhdmjx.com/m3u8.php?url=";
@@ -134,7 +131,7 @@ public class AnimeListController extends BaseController {
                                 "{\"ele\":\"div.myui-panel div.myui-panel-box div.myui-panel_bd div.col-pd span.data\",\"type\":\"text\",\"key\":\"animeDesc\",\"eleIndex\":\"-1\",\"ownText\":\"0\"}-,";
                 String[] splitDetail = arrDetail.split("-,");
 
-                List<String> arr = extracted(shortItem, splitDetail,line1,line2);
+                List<String> arr = extracted(shortItem, splitDetail, line1);
 
                 Map<String, String> map = new LinkedHashMap<>();
 
@@ -142,7 +139,7 @@ public class AnimeListController extends BaseController {
                     String[] arr2 = c.split("-------");
                     map.put(arr2[0], arr2[1]);
                 }
-                Anime data = new Anime();
+                AnimeCh data = new AnimeCh();
                 data.setCoverImg(map.get("coverImg"));
                 data.setTitle(map.get("title"));
                 data.setAlias(map.get("alias"));
@@ -156,21 +153,19 @@ public class AnimeListController extends BaseController {
                 data.setStandbyVideo(map.get("standbyVideo"));
 
 
-
-
-                List<Anime> dataList = dataService.selectDataByTitle(data.getTitle());
+                List<AnimeCh> dataList = dataService.selectDataByTitle(data.getTitle());
                 if (dataList.isEmpty()) {
-                    dataService.insertAnime(data);
+                    dataService.insertAnimeCh(data);
                 } else {
                     data.setId(dataList.get(0).getId());
-                    dataService.updateAnime(data);
+                    dataService.updateAnimeCh(data);
                 }
             }
             list.clear();
         }
     }
 
-    private static List<String> extracted(Elements movies, String[] eleArr,StringBuilder line1,StringBuilder line2) throws Exception {
+    private static List<String> extracted(Elements movies, String[] eleArr, StringBuilder line1) throws Exception {
         String keyValue = "";
         String alias = "", animeType = "", updateState = "";
         String animeCategory = "", animeArea = "", animeYear = "";
@@ -239,7 +234,6 @@ public class AnimeListController extends BaseController {
         list.add("animeYear-------" + animeYear);
         list.add("animeYear-------" + animeYear);
         list.add("animeVideo-------" + line1);
-        list.add("standbyVideo-------" + line2);
         return list;
     }
 }

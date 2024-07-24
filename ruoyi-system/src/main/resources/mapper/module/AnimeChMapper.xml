@@ -3,6 +3,8 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.module.mapper.AnimeChMapper">
+
+
     
     <resultMap type="AnimeCh" id="AnimeChResult">
         <result property="id"    column="id"    />
@@ -27,7 +29,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectAnimeChVo"/>
         <where>  
             <if test="coverImg != null  and coverImg != ''"> and cover_img = #{coverImg}</if>
-            <if test="title != null  and title != ''"> and title = #{title}</if>
+            <if test="title != null  and title != ''">and title like concat('%', #{title}, '%')</if>
             <if test="alias != null  and alias != ''"> and alias = #{alias}</if>
             <if test="animeType != null  and animeType != ''"> and anime_type = #{animeType}</if>
             <if test="animeCategory != null  and animeCategory != ''"> and anime_category = #{animeCategory}</if>
@@ -39,6 +41,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="standbyVideo != null  and standbyVideo != ''"> and standby_video = #{standbyVideo}</if>
         </where>
     </select>
+
     
     <select id="selectAnimeChById" parameterType="Long" resultMap="AnimeChResult">
         <include refid="selectAnimeChVo"/>
@@ -103,4 +106,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{id}
         </foreach>
     </delete>
+
+    <select id="selectDataByTitle" parameterType="String" resultMap="AnimeChResult">
+        <include refid="selectAnimeChVo"/>
+        where title = #{title}
+    </select>
 </mapper>

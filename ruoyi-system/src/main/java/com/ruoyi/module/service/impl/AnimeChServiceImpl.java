@@ -91,4 +91,9 @@ public class AnimeChServiceImpl implements IAnimeChService
     {
         return animeChMapper.deleteAnimeChById(id);
     }
+
+    @Override
+    public List<AnimeCh> selectDataByTitle(String title) {
+        return animeChMapper.selectDataByTitle(title);
+    }
 }

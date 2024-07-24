@@ -59,4 +59,6 @@ public interface AnimeChMapper
      * @return 结果
      */
     public int deleteAnimeChByIds(Long[] ids);
+
+    List<AnimeCh> selectDataByTitle(String title);
 }
