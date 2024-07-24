@@ -128,14 +128,14 @@ public class AnimeListController extends BaseController {
                     try {
                         webdriver.get(baseUrl+jsonObject.get("url"));
                         webdriver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
-                        Thread.sleep(5000);
+                        Thread.sleep(5500);
                         WebElement element1 = (new WebDriverWait(webdriver, 20)).until(ExpectedConditions.elementToBeClickable(By.id("lelevideo")));
                         line1.append(element1.getAttribute("src")+";");
 
                     } catch (Exception e){
                         webdriver.get(baseUrl+jsonObject.get("url_next"));
                         webdriver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
-                        Thread.sleep(5000);
+                        Thread.sleep(5500);
                         WebElement element1 = (new WebDriverWait(webdriver, 20)).until(ExpectedConditions.elementToBeClickable(By.id("lelevideo")));
                         line1.append(element1.getAttribute("src")+";");
                     }

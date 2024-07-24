@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.module.mapper.AnimeChMapper">
+    
+    <resultMap type="AnimeCh" id="AnimeChResult">
+        <result property="id"    column="id"    />
+        <result property="coverImg"    column="cover_img"    />
+        <result property="title"    column="title"    />
+        <result property="alias"    column="alias"    />
+        <result property="animeType"    column="anime_type"    />
+        <result property="animeCategory"    column="anime_category"    />
+        <result property="animeArea"    column="anime_area"    />
+        <result property="animeYear"    column="anime_year"    />
+        <result property="updateState"    column="update_state"    />
+        <result property="animeDesc"    column="anime_desc"    />
+        <result property="animeVideo"    column="anime_video"    />
+        <result property="standbyVideo"    column="standby_video"    />
+    </resultMap>
+
+    <sql id="selectAnimeChVo">
+        select id, cover_img, title, alias, anime_type, anime_category, anime_area, anime_year, update_state, anime_desc, anime_video, standby_video from anime_ch
+    </sql>
+
+    <select id="selectAnimeChList" parameterType="AnimeCh" resultMap="AnimeChResult">
+        <include refid="selectAnimeChVo"/>
+        <where>  
+            <if test="coverImg != null  and coverImg != ''"> and cover_img = #{coverImg}</if>
+            <if test="title != null  and title != ''"> and title = #{title}</if>
+            <if test="alias != null  and alias != ''"> and alias = #{alias}</if>
+            <if test="animeType != null  and animeType != ''"> and anime_type = #{animeType}</if>
+            <if test="animeCategory != null  and animeCategory != ''"> and anime_category = #{animeCategory}</if>
+            <if test="animeArea != null  and animeArea != ''"> and anime_area = #{animeArea}</if>
+            <if test="animeYear != null  and animeYear != ''"> and anime_year = #{animeYear}</if>
+            <if test="updateState != null  and updateState != ''"> and update_state = #{updateState}</if>
+            <if test="animeDesc != null  and animeDesc != ''"> and anime_desc = #{animeDesc}</if>
+            <if test="animeVideo != null  and animeVideo != ''"> and anime_video = #{animeVideo}</if>
+            <if test="standbyVideo != null  and standbyVideo != ''"> and standby_video = #{standbyVideo}</if>
+        </where>
+    </select>
+    
+    <select id="selectAnimeChById" parameterType="Long" resultMap="AnimeChResult">
+        <include refid="selectAnimeChVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertAnimeCh" parameterType="AnimeCh" useGeneratedKeys="true" keyProperty="id">
+        insert into anime_ch
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="coverImg != null">cover_img,</if>
+            <if test="title != null">title,</if>
+            <if test="alias != null">alias,</if>
+            <if test="animeType != null">anime_type,</if>
+            <if test="animeCategory != null">anime_category,</if>
+            <if test="animeArea != null">anime_area,</if>
+            <if test="animeYear != null">anime_year,</if>
+            <if test="updateState != null">update_state,</if>
+            <if test="animeDesc != null">anime_desc,</if>
+            <if test="animeVideo != null">anime_video,</if>
+            <if test="standbyVideo != null">standby_video,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="coverImg != null">#{coverImg},</if>
+            <if test="title != null">#{title},</if>
+            <if test="alias != null">#{alias},</if>
+            <if test="animeType != null">#{animeType},</if>
+            <if test="animeCategory != null">#{animeCategory},</if>
+            <if test="animeArea != null">#{animeArea},</if>
+            <if test="animeYear != null">#{animeYear},</if>
+            <if test="updateState != null">#{updateState},</if>
+            <if test="animeDesc != null">#{animeDesc},</if>
+            <if test="animeVideo != null">#{animeVideo},</if>
+            <if test="standbyVideo != null">#{standbyVideo},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAnimeCh" parameterType="AnimeCh">
+        update anime_ch
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="coverImg != null">cover_img = #{coverImg},</if>
+            <if test="title != null">title = #{title},</if>
+            <if test="alias != null">alias = #{alias},</if>
+            <if test="animeType != null">anime_type = #{animeType},</if>
+            <if test="animeCategory != null">anime_category = #{animeCategory},</if>
+            <if test="animeArea != null">anime_area = #{animeArea},</if>
+            <if test="animeYear != null">anime_year = #{animeYear},</if>
+            <if test="updateState != null">update_state = #{updateState},</if>
+            <if test="animeDesc != null">anime_desc = #{animeDesc},</if>
+            <if test="animeVideo != null">anime_video = #{animeVideo},</if>
+            <if test="standbyVideo != null">standby_video = #{standbyVideo},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAnimeChById" parameterType="Long">
+        delete from anime_ch where id = #{id}
+    </delete>
+
+    <delete id="deleteAnimeChByIds" parameterType="String">
+        delete from anime_ch where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
