@@ -80,10 +80,10 @@ public class AnimeListController extends BaseController {
             // 去除后缀".html"
             String numberOnly = numberPart.replace(".html", "");
 
-            number = Integer.parseInt(numberOnly);
+            number = Integer.parseInt(numberOnly) + 1;
         }
         System.out.println("日漫一共有---" + number + "页,");
-        for (int i = 1; i < number; i++) {
+        for (int i = 1; i < 3; i++) {
             String url = "https://www.857yhw.com/type/ribendongman-" + i + ".html";
             Document doc = Jsoup.connect(url).userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36").data().get();
             Elements movies = doc.select("div.myui-panel div.myui-panel-box div.myui-panel_bd ul.myui-vodlist li");
@@ -104,25 +104,9 @@ public class AnimeListController extends BaseController {
                     playArr.add(elePl.select("a").attr("href"));
                 }
                 StringBuilder line1 = new StringBuilder();
-                StringBuilder line2 = new StringBuilder();
 
                 for (int playHref = 0; playHref < playArr.size(); playHref++) {
-                    System.out.println("当前动漫有" + playArr.size() +"集，现在提取到第"+(playHref+1)+"集");
-                    Document movieEle = Jsoup.connect("https://www.857yhw.com" + playArr.get(playHref)).userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36").data().get();
-                    Element scriptElement = movieEle.select("div.myui-player div.container div.row div.myui-player__item div.col-md-wide-75 div.myui-player__box div.embed-responsive script").first();
-                    String scriptText = scriptElement.html().trim();
-                    if(scriptText==null){
-                        return;
-                    }
-                    String cleanedJson = scriptText.replaceFirst("var player_aaaa=", "");
-                    JSONObject jsonObject = JSONObject.parseObject(cleanedJson);
-                    String baseUrl = "https://danmu.yhdmjx.com/m3u8.php?url=";
-                    line1.append(baseUrl + jsonObject.get("url") + ";");
-                    line2.append(baseUrl + jsonObject.get("url_next") + ";");
-//                    ChromeDriver webdriver = new ChromeDriver(options);
-//                    webdriver.get(baseUrl + jsonObject.get("url"));
-//                    webdriver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
-//                    WebElement element1 = (new WebDriverWait(webdriver, 20)).until(ExpectedConditions.elementToBeClickable(By.id("lelevideo")));
+                    line1.append("https://www.857yhw.com/" + playArr.get(playHref)+";");
                 }
                 String arrDetail =
                         "{\"ele\":\"div.myui-panel div.myui-panel-box div.col-xs-1 div.myui-content__thumb a img\",\"type\":\"data-original\",\"key\":\"coverImg\",\"eleIndex\":\"-1\",\"ownText\":\"0\"}-," +
@@ -134,13 +118,15 @@ public class AnimeListController extends BaseController {
                                 "{\"ele\":\"div.myui-panel div.myui-panel-box div.myui-panel_bd div.col-pd span.data\",\"type\":\"text\",\"key\":\"animeDesc\",\"eleIndex\":\"-1\",\"ownText\":\"0\"}-,";
                 String[] splitDetail = arrDetail.split("-,");
 
-                List<String> arr = extracted(shortItem, splitDetail,line1,line2);
+                List<String> arr = extracted(shortItem, splitDetail,line1);
 
                 Map<String, String> map = new LinkedHashMap<>();
 
                 for (String c : arr) {
                     String[] arr2 = c.split("-------");
-                    map.put(arr2[0], arr2[1]);
+                    if(arr2.length>1){
+                        map.put(arr2[0], arr2[1]);
+                    }
                 }
                 Anime data = new Anime();
                 data.setCoverImg(map.get("coverImg"));
@@ -170,7 +156,7 @@ public class AnimeListController extends BaseController {
         }
     }
 
-    private static List<String> extracted(Elements movies, String[] eleArr,StringBuilder line1,StringBuilder line2) throws Exception {
+    private static List<String> extracted(Elements movies, String[] eleArr,StringBuilder line1) throws Exception {
         String keyValue = "";
         String alias = "", animeType = "", updateState = "";
         String animeCategory = "", animeArea = "", animeYear = "";
@@ -239,7 +225,6 @@ public class AnimeListController extends BaseController {
         list.add("animeYear-------" + animeYear);
         list.add("animeYear-------" + animeYear);
         list.add("animeVideo-------" + line1);
-        list.add("standbyVideo-------" + line2);
         return list;
     }
 }
