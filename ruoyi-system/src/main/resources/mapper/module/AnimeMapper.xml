@@ -80,6 +80,7 @@
             <if test="animeVideo != null  and animeVideo != ''">and anime_video = #{animeVideo}</if>
             <if test="standbyVideo != null  and standbyVideo != ''">and standby_video = #{standbyVideo}</if>
         </where>
+        order by create_time desc
     </select>
 
     <select id="selectAnimeById" parameterType="Long" resultMap="AnimeResult">

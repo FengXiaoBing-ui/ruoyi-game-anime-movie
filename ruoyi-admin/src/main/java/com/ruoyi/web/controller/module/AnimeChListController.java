@@ -147,7 +147,7 @@ public class AnimeChListController extends BaseController {
             number = Integer.parseInt(numberOnly) + 1;
         }
         System.out.println("国漫一共有---" + number + "页,每页有40条");
-        for (int i = 1; i < 3; i++) {
+        for (int i = 5; i >= 1; i--) {
             String url = "https://www.857yhw.com/type/guochandongman-" + i + ".html";
             Document doc = Jsoup.connect(url).userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36").data().get();
             Elements movies = doc.select("div.myui-panel div.myui-panel-box div.myui-panel_bd ul.myui-vodlist li");
@@ -157,7 +157,7 @@ public class AnimeChListController extends BaseController {
                 list.add(movie.select("div.myui-vodlist__box a").attr("href"));
             }
             System.out.println("每页有" + list.size() + "条");
-            for (int item = 0; item < list.size(); item++) {
+            for (int item = list.size() - 1; item >= 0; item --) {
                 System.out.println("第" + i + "页的第" + (item + 1) + "个动漫");
                 List<String> playArr = Lists.newArrayList();
                 Document docDetails = Jsoup.connect("https://www.857yhw.com/" + list.get(item)).userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36").data().get();
