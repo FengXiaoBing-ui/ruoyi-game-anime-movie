@@ -1,13 +1,13 @@
 {
 	"easycom": {
-			"autoscan": true,
-			// 注意一定要放在custom里，否则无效，https://ask.dcloud.net.cn/question/131175
-			"custom": {
-				"^u--(.*)": "@/uni_modules/uview-plus/components/u-$1/u-$1.vue",
-				"^up-(.*)": "@/uni_modules/uview-plus/components/u-$1/u-$1.vue",
-		    "^u-([^-].*)": "@/uni_modules/uview-plus/components/u-$1/u-$1.vue"
-			}
-		},
+		"autoscan": true,
+		// 注意一定要放在custom里，否则无效，https://ask.dcloud.net.cn/question/131175
+		"custom": {
+			"^u--(.*)": "@/uni_modules/uview-plus/components/u-$1/u-$1.vue",
+			"^up-(.*)": "@/uni_modules/uview-plus/components/u-$1/u-$1.vue",
+			"^u-([^-].*)": "@/uni_modules/uview-plus/components/u-$1/u-$1.vue"
+		}
+	},
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
 			"path": "pages/index/index"
@@ -32,6 +32,12 @@
 		},
 		{
 			"path": "pages/moveDetails/moveDetails"
+		},
+		{
+			"path": "pages/video/video",
+			"style": {
+				"navigationStyle": "custom"
+			}
 		}
 	],
 	"globalStyle": {
@@ -40,27 +46,33 @@
 		"navigationBarBackgroundColor": "#F8F8F8",
 		"backgroundColor": "#F8F8F8"
 	},
+	"app-plus": {
+		"distribute": {
+			"distribute": {
+				"orientation": ["portrait-primary"] //重力感应、横竖屏配置
+			}
+		}
+	},
 	"tabBar": {
-		"color":"#000000",
-		"selectedColor":"#08C261",
-		"borderStyle":"black",
-		"backgroundColor":"#F7F7F7",
-		"list":[
-			{
-				"pagePath":"pages/index/index",
-				"text":"首页"
+		"color": "#000000",
+		"selectedColor": "#08C261",
+		"borderStyle": "black",
+		"backgroundColor": "#F7F7F7",
+		"list": [{
+				"pagePath": "pages/index/index",
+				"text": "首页"
 			},
 			{
-				"pagePath":"pages/gameList/gameList",
-				"text":"游戏"
+				"pagePath": "pages/gameList/gameList",
+				"text": "游戏"
 			},
 			{
-				"pagePath":"pages/animeList/animeList",
-				"text":"动漫"
+				"pagePath": "pages/animeList/animeList",
+				"text": "动漫"
 			},
 			{
-				"pagePath":"pages/moveList/moveList",
-				"text":"剧集"
+				"pagePath": "pages/moveList/moveList",
+				"text": "剧集"
 			}
 		]
 	}

@@ -1,18 +1,7 @@
 <template>
 	<view class="content">
 		<view :style="'margin-top:'+tabHeight+'px;width:'+width+'px;height:230px'">
-			<video v-if="nowUrl" id="videoPlay" @pause="isPlay = false" @play="isPlay = true" :style="'width:'+width+'px'" class="video-box"
-				:poster="nowUrl+'?x-oss-process=video/snapshot,t_5,f_jpg'" @click="dblclick"
-				:title="info.title+'——第'+(episodeIndex+1)+'集'" :src="nowUrl" @error="handleError"
-				@fullscreenchange="fullscreenchange">
-				<cover-view class="speed">
-					<view v-if="isFull" @longpress="videoClick" @touchend="mouseup" class="doubleSpeed"></view>
-				</cover-view>
-			</video>
-			<view v-else class="video-box" :style="'width:'+width+'px'"
-				style="background: black;display: flex;flex-direction: row;align-items: center;justify-content: center;">
-				<text style="color:white">视频解析中...</text>
-			</view>
+			<web-view ref="webview" :style="'width:'+width+'px;height:230px'" @onPostMessage="handleMessage" :src="nowUrl"></web-view>
 		</view>
 		<view class="video-tab" style="padding: 0 10px;">
 			<view class="tabList"><text style="color: #ef9dbe;">简介</text></view>
@@ -137,9 +126,8 @@
 		},
 		async onLoad(option) {
 			this.type = option.type
-			await this.getMoveListDeatils(option.id)
-			this.getVideoUrl(option.index)
 			this.episodeIndex = option.index
+			await this.getMoveListDeatils(option.id)
 			this.clickItem("#episodeIndex" + option.index, 0)
 			uni.getSystemInfo({
 				success: (res) => {
@@ -152,41 +140,12 @@
 			})
 		},
 		methods: {
-			dblclick() {
-				console.log('?????????');
-				this.index = this.index == 0 ? 1 : this.index + 1;
-				if (this.index == 1) {
-					this.start_time = new Date().getTime();
-					setTimeout(() => {
-						this.index = this.start_time = this.end_time = 0;
-					}, 600)
-				} else if (this.index == 2) {
-					this.end_time = new Date().getTime();
-					if (this.end_time - this.start_time < 600) {
-						if(this.isPlay){
-							let videoContext = uni.createVideoContext("videoPlay");
-							videoContext.pause();
-						}else{
-							let videoContext = uni.createVideoContext("videoPlay");
-							videoContext.play();
-						}
-					}
-					this.index = this.start_time = this.end_time = 0;
+			handleMessage(e){
+				if(e.detail.data[0].isFull){
+					plus.screen.lockOrientation('landscape');
+				}else{
+					plus.screen.lockOrientation('portrait-primary');
 				}
-			},
-			videoClick() {
-				this.playbackRate(1.5)
-				console.log('longlong');
-			},
-			mouseup() {
-				this.playbackRate(1)
-			},
-			playbackRate(rate) {
-				let videoContext = uni.createVideoContext("videoPlay");
-				videoContext.playbackRate(rate);
-			},
-			fullscreenchange(e) {
-				this.isFull = e.detail.fullScreen
 			},
 			async getVideoUrl(episode) {
 				this.nowUrl = ""
@@ -208,6 +167,9 @@
 				this.info = res.data
 				this.info.animeVideo = res.data.animeVideo.split(";")
 				this.info.animeVideo.length = this.info.animeVideo.length - 1
+				// 20240806/3313_e0eeeb4e/2000k/hls/mixed.m3u8
+				this.nowUrl = `http://192.168.3.83:5500/index.html?id=${id}&type=mp4&url=${this.info.animeVideo[this.episodeIndex]}`
+				console.log(this.nowUrl);
 			},
 			viewPages() {
 				this.open()
