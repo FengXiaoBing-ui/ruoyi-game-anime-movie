@@ -10,16 +10,16 @@
 		<swiper :style="'height:'+winHiehgt+'px'">
 			<swiper-item :style="'height:'+winHiehgt+'px'">
 				<view class="swiper-item">
-					<text class="title">{{ info.title }}</text>
-					<view class="info">{{ info.animeYear }} / {{ info.animeCategory }} / {{ info.animeType }}</view>
+					<text class="title">{{ info.movieTitle }}</text>
+					<view class="info">{{ info.movieYear }} / {{ info.category }} / {{ info.movieType }}</view>
 					<view style="display: flex;flex-direction: row;justify-content: space-between;margin-top: 10px;">
-						<text style="width: 270px;" class="text-cut">{{ info.animeDesc }}</text>
+						<text style="width: 270px;" class="text-cut">{{ info.movieDesc }} {{ info.movieDesc2 }}</text>
 						<view @click="viewDetail">查看详情</view>
 					</view>
 					<view
 						style="display: flex;flex-direction: row; justify-content: space-between;align-items: center;margin-top: 20px;">
 						<view>选集</view>
-						<view @click="viewPages" style="display: flex;flex-direction: row;">{{ info.updateState }}
+						<view @click="viewPages" style="display: flex;flex-direction: row;">{{ info.movieEdition }}
 							<up-icon name="arrow-right"></up-icon>
 						</view>
 					</view>
@@ -27,7 +27,7 @@
 						:scroll="false" :scroll-x="true" :show-scrollbar="false" :scroll-left="xNum">
 						<view class="eplsode" style="flex-direction: column;">
 							<view style="display: flex;flex-direction: row;flex-wrap: nowrap;">
-								<view :id="'episodeIndex'+index" v-for="(tab,index) in info.animeVideo" :key="tab"
+								<view :id="'episodeIndex'+index" v-for="(tab,index) in info.linkHref1" :key="tab"
 									@tap="episode(index)">
 									<text :class="{'list':true,'active-list':episodeIndex==index}">{{index+1}}</text>
 								</view>
@@ -76,7 +76,8 @@
 			<view class="mask" :style="'height:'+winHiehgt+'px;width:'+width+'px'">
 				<view v-if="showDetails">
 					<view>简介：</view>
-					<view>{{ info.animeDesc }}</view>
+					<view>{{ info.movieDesc }}</view>
+					<view>{{ info.movieDesc2 }}</view>
 				</view>
 				<view class="eplsode" v-if="showPage">
 					<view style="margin: 5px 0;">剧集</view>
@@ -84,7 +85,7 @@
 						:style="'height:'+(winHiehgt-30)+'px;width:'+width+'px'" :scroll="false" :scroll-y="true"
 						:show-scrollbar="false">
 						<view style="display: flex;flex-direction: row;flex-wrap: wrap;">
-							<view :id="'episodeI'+index" v-for="(tab,index) in info.animeVideo" :key="tab"
+							<view :id="'episodeI'+index" v-for="(tab,index) in info.linkHref1" :key="tab"
 								@tap="episode(index)">
 								<text :class="{'list':true,'active-list':episodeIndex==index}">{{index+1}}</text>
 							</view>
@@ -128,12 +129,12 @@
 			this.type = option.type
 			this.episodeIndex = option.index
 			await this.getMoveListDeatils(option.id)
+			// this.getVideoUrl(option.index,option.id)
 			this.clickItem("#episodeIndex" + option.index, 0)
 			uni.getSystemInfo({
 				success: (res) => {
 					this.tabHeight = res.statusBarHeight
 					this.winHiehgt = res.safeArea.height - 350
-					console.log(res)
 					this.width = res.screenWidth
 					this.height = res.screenHeight
 				}
@@ -147,27 +148,21 @@
 					plus.screen.lockOrientation('portrait-primary');
 				}
 			},
-			async getVideoUrl(episode) {
+			async getVideoUrl(episode,id) {
 				this.nowUrl = ""
-				const res = await http.getVideoUrl({
-					url: this.info.animeVideo[episode]
+				const res = await http.getMovieVideoUrl({
+					url: this.info.linkHref1[episode],
+					id:id,
+					type:"movieUrl1"
 				})
 				this.nowUrl = res.msg
 			},
 			async getMoveListDeatils(id) {
-				let res = ""
-				if (this.type == "国产动漫") {
-					res = await http.getChAnimeListDeatils(id)
-				} else if (this.type == "日本动漫") {
-					res = await http.getMoveListDeatils(id)
-				} else if (this.type == "动漫电影") {
-					res = await http.getAnimeMoiveListDeatils(id)
-				}
+				let res = await http.getMoiveListDeatils(id)
 				this.info = res.data
-				this.info.animeVideo = res.data.animeVideo.split(";")
-				this.info.animeVideo.length = this.info.animeVideo.length - 1
-				// 20240806/3313_e0eeeb4e/2000k/hls/mixed.m3u8
-				this.nowUrl = `http://192.168.3.83:5500/index.html?id=${id}&type=mp4&url=${this.info.animeVideo[this.episodeIndex]}`
+				this.info.linkHref1 = this.info.linkHref1.split(";")
+				this.info.linkHref1.length = this.info.linkHref1.length - 1
+				this.nowUrl = `http://192.168.3.83:5500/index.html?id=${id}&type=m3u8&url=${this.info.linkHref1[this.episodeIndex]}&movieType=movieUrl1`
 				console.log(this.nowUrl);
 			},
 			viewPages() {

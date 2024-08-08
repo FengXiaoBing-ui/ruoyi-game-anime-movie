@@ -58,6 +58,8 @@
         let type = GetQueryString('type')
         let id = GetQueryString('id')
         let url = GetQueryString('url')
+        let movieType = GetQueryString('movieType')
+        let isM3u8 = true
         $.ajax({
             url: `http://192.168.3.83:8080/module/anime/${id}`,
             type: "get",
@@ -65,16 +67,35 @@
                 console.log(res);
             }
         })
-        $.ajax({
-            async: false,
-            url: `http://192.168.3.83:8080/module/AnimeChListController/getVideo?url=${url}`,
-            type: "get",
-            timeout: 30000,
-            success: (res) => {
-                console.log(res.msg);
-                url = res.msg
-            }
-        })
+        if (type == 'mp4') {
+            $.ajax({
+                async: false,
+                url: `http://192.168.3.83:8080/module/AnimeChListController/getVideo?url=${url}`,
+                type: "get",
+                timeout: 30000,
+                success: (res) => {
+                    console.log(res.msg);
+                    url = res.msg
+                }
+            })
+        } else {
+            $.ajax({
+                async: false,
+                url: `http://192.168.3.83:8080/module/DataMovieListController/getVideo?url=${url}&id=${id}&type=${movieType}`,
+                type: "get",
+                timeout: 30000,
+                success: (res) => {
+                    console.log(res.msg);
+                    const lastFourChars = res.msg.slice(-4);
+                    if (lastFourChars == "m3u8") {
+                        url = res.msg
+                    } else {
+                        isM3u8 = false
+                        window.open(res.msg)
+                    }
+                }
+            })
+        }
         let player = new window.Player({
             id: 'mse',
             url: url,

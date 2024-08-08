@@ -31,7 +31,10 @@
 			"path": "pages/moveList/moveList"
 		},
 		{
-			"path": "pages/moveDetails/moveDetails"
+			"path": "pages/moveDetails/moveDetails",
+			"style": {
+				"navigationStyle": "custom"
+			}
 		},
 		{
 			"path": "pages/video/video",

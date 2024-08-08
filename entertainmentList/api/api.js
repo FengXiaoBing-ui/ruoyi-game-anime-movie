@@ -27,5 +27,14 @@ export default {
 	},
 	getVideoUrl(data){
 		return req.ajaxRequest({url:`/module/AnimeChListController/getVideo`,data})
-	}
+	},
+	getMovieVideoUrl(data){
+		return req.ajaxRequest({url:`/module/DataMovieListController/getVideo`,data})
+	},
+	getMoiveList(data){
+		return req.ajaxRequest({url:"/module/data_movie/list",data})
+	},
+	getMoiveListDeatils(data){
+		return req.ajaxRequest({url:`/module/data_movie/${data}`})
+	},
 }

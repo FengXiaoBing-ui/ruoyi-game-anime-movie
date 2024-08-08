@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.module.mapper.DataMovieMapper">
+
+    <resultMap type="DataMovie" id="DataMovieResult">
+        <result property="id" column="id"/>
+        <result property="movieTitle" column="movie_title"/>
+        <result property="movieType" column="movie_type"/>
+        <result property="movieArea" column="movie_area"/>
+        <result property="movieYear" column="movie_year"/>
+        <result property="movieScore" column="movie_score"/>
+        <result property="movieLanguage" column="movie_language"/>
+        <result property="performer" column="performer"/>
+        <result property="director" column="director"/>
+        <result property="movieEdition" column="movie_edition"/>
+        <result property="updateMovie" column="update_movie"/>
+        <result property="createTime" column="create_time"/>
+        <result property="movieDesc" column="movie_desc"/>
+        <result property="movieDesc2" column="movie_desc2"/>
+        <result property="hrefName1" column="href_name1"/>
+        <result property="hrefText1" column="href_text1"/>
+        <result property="linkHref1" column="link_href1"/>
+        <result property="movieUrl1" column="movie_url1"/>
+        <result property="hrefName2" column="href_name2"/>
+        <result property="hrefText2" column="href_text2"/>
+        <result property="linkHref2" column="link_href2"/>
+        <result property="movieUrl2" column="movie_url2"/>
+        <result property="hrefName3" column="href_name3"/>
+        <result property="hrefText3" column="href_text3"/>
+        <result property="linkHref3" column="link_href3"/>
+        <result property="movieUrl3" column="movie_url3"/>
+        <result property="image" column="image"/>
+        <result property="category" column="category_movie"/>
+    </resultMap>
+
+    <sql id="selectDataMovieVo">
+        select id,
+               movie_title,
+               movie_type,
+               movie_area,
+               movie_year,
+               movie_score,
+               movie_language,
+               performer,
+               director,
+               movie_edition,
+               update_movie,
+               create_time,
+               movie_desc,
+               movie_desc2,
+               href_name1,
+               href_text1,
+               link_href1,
+               movie_url1,
+               href_name2,
+               href_text2,
+               link_href2,
+               movie_url2,
+               href_name3,
+               href_text3,
+               link_href3,
+               movie_url3,
+               image,
+               category_movie
+        from data_movie
+    </sql>
+
+    <select id="selectDataMovieList" parameterType="DataMovie" resultMap="DataMovieResult">
+        <include refid="selectDataMovieVo"/>
+        <where>
+            <if test="movieTitle != null  and movieTitle != ''">and movie_title like concat('%', #{movieTitle}, '%')</if>
+            <if test="movieType != null  and movieType != ''">and movie_type = #{movieType}</if>
+            <if test="movieArea != null  and movieArea != ''">and movie_area = #{movieArea}</if>
+            <if test="movieYear != null  and movieYear != ''">and movie_year = #{movieYear}</if>
+            <if test="movieScore != null  and movieScore != ''">and movie_score = #{movieScore}</if>
+            <if test="movieLanguage != null  and movieLanguage != ''">and movie_language = #{movieLanguage}</if>
+            <if test="performer != null  and performer != ''">and performer = #{performer}</if>
+            <if test="director != null  and director != ''">and director = #{director}</if>
+            <if test="movieEdition != null  and movieEdition != ''">and movie_edition = #{movieEdition}</if>
+            <if test="updateMovie != null ">and update_movie = #{updateMovie}</if>
+            <if test="movieDesc != null  and movieDesc != ''">and movie_desc = #{movieDesc}</if>
+            <if test="movieDesc2 != null  and movieDesc2 != ''">and movie_desc2 = #{movieDesc2}</if>
+            <if test="hrefName1 != null  and hrefName1 != ''">and href_name1 = #{hrefName1}</if>
+            <if test="hrefText1 != null  and hrefText1 != ''">and href_text1 = #{hrefText1}</if>
+            <if test="linkHref1 != null  and linkHref1 != ''">and link_href1 = #{linkHref1}</if>
+            <if test="movieUrl1 != null  and movieUrl1 != ''">and movie_url1 = #{movieUrl1}</if>
+            <if test="hrefName2 != null  and hrefName2 != ''">and href_name2 = #{hrefName2}</if>
+            <if test="hrefText2 != null  and hrefText2 != ''">and href_text2 = #{hrefText2}</if>
+            <if test="linkHref2 != null  and linkHref2 != ''">and link_href2 = #{linkHref2}</if>
+            <if test="movieUrl2 != null  and movieUrl2 != ''">and movie_url2 = #{movieUrl2}</if>
+            <if test="hrefName3 != null  and hrefName3 != ''">and href_name3 = #{hrefName3}</if>
+            <if test="hrefText3 != null  and hrefText3 != ''">and href_text3 = #{hrefText3}</if>
+            <if test="linkHref3 != null  and linkHref3 != ''">and link_href3 = #{linkHref3}</if>
+            <if test="movieUrl3 != null  and movieUrl3 != ''">and movie_url3 = #{movieUrl3}</if>
+            <if test="image != null  and image != ''">and image = #{image}</if>
+            <if test="category != null  and category != ''">and category_movie = #{category}</if>
+        </where>
+        order by create_time desc
+    </select>
+
+    <select id="selectDataMovieById" parameterType="Long" resultMap="DataMovieResult">
+        <include refid="selectDataMovieVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertDataMovie" parameterType="DataMovie" useGeneratedKeys="true" keyProperty="id">
+        insert into data_movie
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="movieTitle != null">movie_title,</if>
+            <if test="movieType != null">movie_type,</if>
+            <if test="movieArea != null">movie_area,</if>
+            <if test="movieYear != null">movie_year,</if>
+            <if test="movieScore != null">movie_score,</if>
+            <if test="movieLanguage != null">movie_language,</if>
+            <if test="performer != null">performer,</if>
+            <if test="director != null">director,</if>
+            <if test="movieEdition != null">movie_edition,</if>
+            <if test="updateMovie != null">update_movie,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="movieDesc != null">movie_desc,</if>
+            <if test="movieDesc2 != null">movie_desc2,</if>
+            <if test="hrefName1 != null">href_name1,</if>
+            <if test="hrefText1 != null">href_text1,</if>
+            <if test="linkHref1 != null">link_href1,</if>
+            <if test="movieUrl1 != null">movie_url1,</if>
+            <if test="hrefName2 != null">href_name2,</if>
+            <if test="hrefText2 != null">href_text2,</if>
+            <if test="linkHref2 != null">link_href2,</if>
+            <if test="movieUrl2 != null">movie_url2,</if>
+            <if test="hrefName3 != null">href_name3,</if>
+            <if test="hrefText3 != null">href_text3,</if>
+            <if test="linkHref3 != null">link_href3,</if>
+            <if test="movieUrl3 != null">movie_url3,</if>
+            <if test="image != null">image,</if>
+            <if test="category != null">category_movie,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="movieTitle != null">#{movieTitle},</if>
+            <if test="movieType != null">#{movieType},</if>
+            <if test="movieArea != null">#{movieArea},</if>
+            <if test="movieYear != null">#{movieYear},</if>
+            <if test="movieScore != null">#{movieScore},</if>
+            <if test="movieLanguage != null">#{movieLanguage},</if>
+            <if test="performer != null">#{performer},</if>
+            <if test="director != null">#{director},</if>
+            <if test="movieEdition != null">#{movieEdition},</if>
+            <if test="updateMovie != null">#{updateMovie},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="movieDesc != null">#{movieDesc},</if>
+            <if test="movieDesc2 != null">#{movieDesc2},</if>
+            <if test="hrefName1 != null">#{hrefName1},</if>
+            <if test="hrefText1 != null">#{hrefText1},</if>
+            <if test="linkHref1 != null">#{linkHref1},</if>
+            <if test="movieUrl1 != null">#{movieUrl1},</if>
+            <if test="hrefName2 != null">#{hrefName2},</if>
+            <if test="hrefText2 != null">#{hrefText2},</if>
+            <if test="linkHref2 != null">#{linkHref2},</if>
+            <if test="movieUrl2 != null">#{movieUrl2},</if>
+            <if test="hrefName3 != null">#{hrefName3},</if>
+            <if test="hrefText3 != null">#{hrefText3},</if>
+            <if test="linkHref3 != null">#{linkHref3},</if>
+            <if test="movieUrl3 != null">#{movieUrl3},</if>
+            <if test="image != null">#{image},</if>
+            <if test="category != null">#{category_movie},</if>
+        </trim>
+    </insert>
+
+    <update id="updateDataMovie" parameterType="DataMovie">
+        update data_movie
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="movieTitle != null">movie_title = #{movieTitle},</if>
+            <if test="movieType != null">movie_type = #{movieType},</if>
+            <if test="movieArea != null">movie_area = #{movieArea},</if>
+            <if test="movieYear != null">movie_year = #{movieYear},</if>
+            <if test="movieScore != null">movie_score = #{movieScore},</if>
+            <if test="movieLanguage != null">movie_language = #{movieLanguage},</if>
+            <if test="performer != null">performer = #{performer},</if>
+            <if test="director != null">director = #{director},</if>
+            <if test="movieEdition != null">movie_edition = #{movieEdition},</if>
+            <if test="updateMovie != null">update_movie = #{updateMovie},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="movieDesc != null">movie_desc = #{movieDesc},</if>
+            <if test="movieDesc2 != null">movie_desc2 = #{movieDesc2},</if>
+            <if test="hrefName1 != null">href_name1 = #{hrefName1},</if>
+            <if test="hrefText1 != null">href_text1 = #{hrefText1},</if>
+            <if test="linkHref1 != null">link_href1 = #{linkHref1},</if>
+            <if test="movieUrl1 != null">movie_url1 = #{movieUrl1},</if>
+            <if test="hrefName2 != null">href_name2 = #{hrefName2},</if>
+            <if test="hrefText2 != null">href_text2 = #{hrefText2},</if>
+            <if test="linkHref2 != null">link_href2 = #{linkHref2},</if>
+            <if test="movieUrl2 != null">movie_url2 = #{movieUrl2},</if>
+            <if test="hrefName3 != null">href_name3 = #{hrefName3},</if>
+            <if test="hrefText3 != null">href_text3 = #{hrefText3},</if>
+            <if test="linkHref3 != null">link_href3 = #{linkHref3},</if>
+            <if test="movieUrl3 != null">movie_url3 = #{movieUrl3},</if>
+            <if test="image != null">image = #{image},</if>
+            <if test="category != null">category_movie = #{category},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <update id="updateMovieUrl" parameterType="DataMovie">
+        update data_movie
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="movieUrl1 != null">movie_url1 = #{movieUrl1},</if>
+            <if test="movieUrl2 != null">movie_url2 = #{movieUrl2},</if>
+            <if test="movieUrl3 != null">movie_url3 = #{movieUrl3},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteDataMovieById" parameterType="Long">
+        delete
+        from data_movie
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteDataMovieByIds" parameterType="String">
+        delete from data_movie where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="selectDataByTitle" parameterType="Data" resultMap="DataMovieResult">
+        <include refid="selectDataMovieVo"/>
+        where movie_title = #{movieTitle}
+    </select>
+
+    <select id="selectMovieUrl1" parameterType="Data" resultMap="DataMovieResult">
+        <include refid="selectDataMovieVo"/>
+        WHERE id = #{id}
+    </select>
+
+    <select id="selectMovieUrl2" parameterType="Data" resultMap="DataMovieResult">
+        <include refid="selectDataMovieVo"/>
+        WHERE id = #{id}
+    </select>
+
+    <select id="selectMovieUrl3" parameterType="Data" resultMap="DataMovieResult">
+        <include refid="selectDataMovieVo"/>
+        WHERE id = #{id}
+    </select>
+</mapper>
