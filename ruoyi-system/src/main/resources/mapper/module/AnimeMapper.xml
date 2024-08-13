@@ -24,7 +24,7 @@
         from anime
     </sql>
 
-    <select id="selectDataList" parameterType="Data" resultMap="AnimeResult">
+    <select id="selectDataList" parameterType="Anime" resultMap="AnimeResult">
         <include refid="selectDataVo"/>
         <where>
             <if test="coverImg != null  and coverImg != ''">and cover_img = #{coverImg}</if>

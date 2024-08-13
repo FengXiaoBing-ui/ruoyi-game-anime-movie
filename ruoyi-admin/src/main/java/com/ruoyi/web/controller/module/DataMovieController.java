@@ -15,15 +15,14 @@ import java.util.List;
 
 /**
  * data_movieController
- * 
+ *
  * @author ruoyi
  * @date 2024-08-08
  */
 @Anonymous
 @RestController
 @RequestMapping("/module/data_movie")
-public class DataMovieController extends BaseController
-{
+public class DataMovieController extends BaseController {
     @Autowired
     private IDataMovieService dataMovieService;
 
@@ -31,8 +30,7 @@ public class DataMovieController extends BaseController
      * 查询data_movie列表
      */
     @GetMapping("/list")
-    public TableDataInfo list(DataMovie dataMovie)
-    {
+    public TableDataInfo list(DataMovie dataMovie) {
         startPage();
         List<DataMovie> list = dataMovieService.selectDataMovieList(dataMovie);
         return getDataTable(list);
@@ -42,8 +40,7 @@ public class DataMovieController extends BaseController
      * 导出data_movie列表
      */
     @PostMapping("/export")
-    public void export(HttpServletResponse response, DataMovie dataMovie)
-    {
+    public void export(HttpServletResponse response, DataMovie dataMovie) {
         List<DataMovie> list = dataMovieService.selectDataMovieList(dataMovie);
         ExcelUtil<DataMovie> util = new ExcelUtil<DataMovie>(DataMovie.class);
         util.exportExcel(response, list, "data_movie数据");
@@ -53,8 +50,7 @@ public class DataMovieController extends BaseController
      * 获取data_movie详细信息
      */
     @GetMapping(value = "/{id}")
-    public AjaxResult getInfo(@PathVariable("id") Long id)
-    {
+    public AjaxResult getInfo(@PathVariable("id") Long id) throws Exception {
         return success(dataMovieService.selectDataMovieById(id));
     }
 
@@ -62,8 +58,7 @@ public class DataMovieController extends BaseController
      * 新增data_movie
      */
     @PostMapping
-    public AjaxResult add(@RequestBody DataMovie dataMovie)
-    {
+    public AjaxResult add(@RequestBody DataMovie dataMovie) {
         return toAjax(dataMovieService.insertDataMovie(dataMovie));
     }
 
@@ -71,17 +66,15 @@ public class DataMovieController extends BaseController
      * 修改data_movie
      */
     @PutMapping
-    public AjaxResult edit(@RequestBody DataMovie dataMovie)
-    {
+    public AjaxResult edit(@RequestBody DataMovie dataMovie) {
         return toAjax(dataMovieService.updateDataMovie(dataMovie));
     }
 
     /**
      * 删除data_movie
      */
-	@DeleteMapping("/{ids}")
-    public AjaxResult remove(@PathVariable Long[] ids)
-    {
+    @DeleteMapping("/{ids}")
+    public AjaxResult remove(@PathVariable Long[] ids) {
         return toAjax(dataMovieService.deleteDataMovieByIds(ids));
     }
 }

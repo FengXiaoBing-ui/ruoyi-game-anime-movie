@@ -224,22 +224,22 @@
         </foreach>
     </delete>
 
-    <select id="selectDataByTitle" parameterType="Data" resultMap="DataMovieResult">
+    <select id="selectDataByTitle" parameterType="DataMovie" resultMap="DataMovieResult">
         <include refid="selectDataMovieVo"/>
         where movie_title = #{movieTitle}
     </select>
 
-    <select id="selectMovieUrl1" parameterType="Data" resultMap="DataMovieResult">
+    <select id="selectMovieUrl1" parameterType="DataMovie" resultMap="DataMovieResult">
         <include refid="selectDataMovieVo"/>
         WHERE id = #{id}
     </select>
 
-    <select id="selectMovieUrl2" parameterType="Data" resultMap="DataMovieResult">
+    <select id="selectMovieUrl2" parameterType="DataMovie" resultMap="DataMovieResult">
         <include refid="selectDataMovieVo"/>
         WHERE id = #{id}
     </select>
 
-    <select id="selectMovieUrl3" parameterType="Data" resultMap="DataMovieResult">
+    <select id="selectMovieUrl3" parameterType="DataMovie" resultMap="DataMovieResult">
         <include refid="selectDataMovieVo"/>
         WHERE id = #{id}
     </select>

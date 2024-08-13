@@ -1,352 +1,415 @@
 package com.ruoyi.module.domain;
 
-import com.ruoyi.common.annotation.Excel;
-import com.ruoyi.common.core.domain.BaseEntity;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import com.ruoyi.common.annotation.Excel;
+import com.ruoyi.common.core.domain.BaseEntity;
 
 /**
  * module对象 data
- *
+ * 
  * @author fxb
- * @date 2024-07-17
+ * @date 2024-08-13
  */
-public class Data extends BaseEntity {
+public class Data extends BaseEntity
+{
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 主键
-     */
+    /** 主键 */
     private Long id;
 
-    /**
-     * 下载数量
-     */
+    /** 下载数量 */
     @Excel(name = "下载数量")
-    private Integer downLoadCount;
+    private Long downLoadCount;
 
-    /**
-     * 封面
-     */
+    /** 封面 */
     @Excel(name = "封面")
-    private String img;
+    private String coverImg;
 
-    /**
-     * 标题
-     */
+    /** 中文标题 */
+    @Excel(name = "中文标题")
+    private String zhTitle;
+
+    /** 标题 */
     @Excel(name = "标题")
     private String title;
 
-    /**
-     * 版本
-     */
-    @Excel(name = "版本")
-    private String subhnamever;
-
-    /**
-     * 版本标签
-     */
-    @Excel(name = "版本标签")
-    private String subhname;
-
-    /**
-     * 发售日期
-     */
+    /** 发售日期 */
     @Excel(name = "发售日期")
     private String releaseDate;
 
-    /**
-     * 开发商
-     */
+    /** 开发商 */
     @Excel(name = "开发商")
     private String developer;
 
-    /**
-     * 游戏类型
-     */
-    @Excel(name = "游戏类型")
-    private String gameType;
-
-    /**
-     * 评分
-     */
+    /** 评分 */
     @Excel(name = "评分")
     private String score;
 
-    /**
-     * 更新时间
-     */
-    @Excel(name = "更新时间")
-    private Long update;
-
-    /**
-     * 描述图片高清
-     */
-    @Excel(name = "描述图片高清")
-    private String descHeightImg;
-
-    /**
-     * 描述图片
-     */
-    @Excel(name = "描述图片")
-    private String descImg;
-
-    /**
-     * 视频
-     */
-    @Excel(name = "视频")
-    private String descVideo;
-
-    /**
-     * 视频完整地址
-     */
-    @Excel(name = "视频完整地址")
-    private String movieMax;
-
-    /**
-     * 游戏下载地址
-     */
+    /** 游戏下载地址 */
     @Excel(name = "游戏下载地址")
     private String gameUrl;
 
-    /**
-     * 最低配置
-     */
+    /** 最低配置 */
     @Excel(name = "最低配置")
     private String minSpec;
 
-    /**
-     * 游戏介绍
-     */
-    @Excel(name = "最低配置")
-    private String desc;
+    /** 推荐配置 */
+    @Excel(name = "推荐配置")
+    private String recommendSpec;
 
-    /**
-     * 中文标题
-     */
-    @Excel(name = "中文标题")
-    private String chTitle;
+    /** 最低配置2 */
+    @Excel(name = "最低配置2")
+    private String minSpec2;
 
-    /**
-     * 文件大小
-     */
-    @Excel(name = "文件大小")
+    /** 游戏大小 */
+    @Excel(name = "游戏大小")
     private String gameSize;
 
-    public void setId(Long id) {
+    /** 游戏简介 */
+    @Excel(name = "游戏简介")
+    private String gameDesc;
+
+    /** 游戏类型 */
+    @Excel(name = "游戏类型")
+    private String gameType;
+
+    /** 游戏介绍 */
+    @Excel(name = "游戏介绍")
+    private String gameIntroduce;
+
+    /** 发行商 */
+    @Excel(name = "发行商")
+    private String publisher;
+
+    /** 标签列表 */
+    @Excel(name = "标签列表")
+    private String tagList;
+
+    /** steam最近评价 */
+    @Excel(name = "steam最近评价")
+    private String steamLatelyMixed;
+
+    /** steam最近评价详情 */
+    @Excel(name = "steam最近评价详情")
+    private String steamLatelyReviewDesc;
+
+    /** steam全部评价 */
+    @Excel(name = "steam全部评价")
+    private String steamAllPositive;
+
+    /** steam全部评价详情 */
+    @Excel(name = "steam全部评价详情")
+    private String steamAllReviewDesc;
+
+    /** 视频播放地址webm */
+    @Excel(name = "视频播放地址webm")
+    private String webmSource;
+
+    /** 视频高清播放地址webm */
+    @Excel(name = "视频高清播放地址webm")
+    private String webmHdSource;
+
+    /** 视频播放地址mp4 */
+    @Excel(name = "视频播放地址mp4")
+    private String mp4Source;
+
+    /** 视频高清播放地址mp4 */
+    @Excel(name = "视频高清播放地址mp4")
+    private String mp4HdSource;
+
+    /** 视频封面 */
+    @Excel(name = "视频封面")
+    private String poster;
+
+    /** 详情图片 */
+    @Excel(name = "详情图片")
+    private String image;
+
+    public void setId(Long id) 
+    {
         this.id = id;
     }
 
-    public Long getId() {
+    public Long getId() 
+    {
         return id;
     }
-
-    public void setDownLoadCount(Integer downLoadCount) {
+    public void setDownLoadCount(Long downLoadCount) 
+    {
         this.downLoadCount = downLoadCount;
     }
 
-    public Integer getDownLoadCount() {
+    public Long getDownLoadCount() 
+    {
         return downLoadCount;
     }
-
-    public void setImg(String img) {
-        this.img = img;
+    public void setCoverImg(String coverImg) 
+    {
+        this.coverImg = coverImg;
     }
 
-    public String getImg() {
-        return img;
+    public String getCoverImg() 
+    {
+        return coverImg;
+    }
+    public void setZhTitle(String zhTitle) 
+    {
+        this.zhTitle = zhTitle;
     }
 
-    public void setTitle(String title) {
+    public String getZhTitle() 
+    {
+        return zhTitle;
+    }
+    public void setTitle(String title) 
+    {
         this.title = title;
     }
 
-    public String getTitle() {
+    public String getTitle() 
+    {
         return title;
     }
-
-    public void setSubhnamever(String subhnamever) {
-        this.subhnamever = subhnamever;
-    }
-
-    public String getSubhnamever() {
-        return subhnamever;
-    }
-
-    public void setSubhname(String subhname) {
-        this.subhname = subhname;
-    }
-
-    public String getSubhname() {
-        return subhname;
-    }
-
-    public void setReleaseDate(String releaseDate) {
+    public void setReleaseDate(String releaseDate) 
+    {
         this.releaseDate = releaseDate;
     }
 
-    public String getReleaseDate() {
+    public String getReleaseDate() 
+    {
         return releaseDate;
     }
-
-    public void setDeveloper(String developer) {
+    public void setDeveloper(String developer) 
+    {
         this.developer = developer;
     }
 
-    public String getDeveloper() {
+    public String getDeveloper() 
+    {
         return developer;
     }
-
-    public void setGameType(String gameType) {
-        this.gameType = gameType;
-    }
-
-    public String getGameType() {
-        return gameType;
-    }
-
-    public void setScore(String score) {
+    public void setScore(String score) 
+    {
         this.score = score;
     }
 
-    public String getScore() {
+    public String getScore() 
+    {
         return score;
     }
-
-    public void setUpdate(Long update) {
-        this.update = update;
-    }
-
-    public Long getUpdate() {
-        return update;
-    }
-
-    public void setDescHeightImg(String descHeightImg) {
-        this.descHeightImg = descHeightImg;
-    }
-
-    public String getDescHeightImg() {
-        return descHeightImg;
-    }
-
-    public void setDescImg(String descImg) {
-        this.descImg = descImg;
-    }
-
-    public String getDescImg() {
-        return descImg;
-    }
-
-    public void setDescVideo(String descVideo) {
-        this.descVideo = descVideo;
-    }
-
-    public String getDescVideo() {
-        return descVideo;
-    }
-
-    public void setMovieMax(String movieMax) {
-        this.movieMax = movieMax;
-    }
-
-    public String getMovieMax() {
-        return movieMax;
-    }
-
-    public void setGameUrl(String gameUrl) {
+    public void setGameUrl(String gameUrl) 
+    {
         this.gameUrl = gameUrl;
     }
 
-    public String getGameUrl() {
+    public String getGameUrl() 
+    {
         return gameUrl;
     }
-
-    public void setMinSpec(String minSpec) {
+    public void setMinSpec(String minSpec) 
+    {
         this.minSpec = minSpec;
     }
 
-    public String getMinSpec() {
+    public String getMinSpec() 
+    {
         return minSpec;
     }
-
-    public void setChTitle(String chTitle) {
-        this.chTitle = chTitle;
+    public void setRecommendSpec(String recommendSpec) 
+    {
+        this.recommendSpec = recommendSpec;
     }
 
-    public String getChTitle() {
-        return chTitle;
+    public String getRecommendSpec() 
+    {
+        return recommendSpec;
+    }
+    public void setMinSpec2(String minSpec2) 
+    {
+        this.minSpec2 = minSpec2;
     }
 
-    public void setGameSize(String gameSize) {
+    public String getMinSpec2() 
+    {
+        return minSpec2;
+    }
+    public void setGameSize(String gameSize) 
+    {
         this.gameSize = gameSize;
     }
 
-    public String getGameSize() {
+    public String getGameSize() 
+    {
         return gameSize;
     }
-
-
-    public String getDesc() {
-        return desc;
+    public void setGameDesc(String gameDesc) 
+    {
+        this.gameDesc = gameDesc;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public String getGameDesc() 
+    {
+        return gameDesc;
     }
-
-    public Data(String title) {
-        this.title = title;
-    }
-
-    public Data() {
-    }
-
-    public Data(Long id, Integer downLoadCount, String img, String title, String subhnamever, String subhname, String releaseDate, String developer, String gameType, String score, Long update, String descHeightImg, String descImg, String descVideo,String movieMax, String gameUrl, String minSpec, String desc, String chTitle,String gameSize) {
-        this.id = id;
-        this.downLoadCount = downLoadCount;
-        this.img = img;
-        this.title = title;
-        this.subhnamever = subhnamever;
-        this.subhname = subhname;
-        this.releaseDate = releaseDate;
-        this.developer = developer;
+    public void setGameType(String gameType) 
+    {
         this.gameType = gameType;
-        this.score = score;
-        this.update = update;
-        this.descHeightImg = descHeightImg;
-        this.descImg = descImg;
-        this.descVideo = descVideo;
-        this.movieMax = movieMax;
-        this.gameUrl = gameUrl;
-        this.minSpec = minSpec;
-        this.desc = desc;
-        this.chTitle = chTitle;
-        this.gameSize = gameSize;
+    }
+
+    public String getGameType() 
+    {
+        return gameType;
+    }
+    public void setGameIntroduce(String gameIntroduce) 
+    {
+        this.gameIntroduce = gameIntroduce;
+    }
+
+    public String getGameIntroduce() 
+    {
+        return gameIntroduce;
+    }
+    public void setPublisher(String publisher) 
+    {
+        this.publisher = publisher;
+    }
+
+    public String getPublisher() 
+    {
+        return publisher;
+    }
+    public void setTagList(String tagList) 
+    {
+        this.tagList = tagList;
+    }
+
+    public String getTagList() 
+    {
+        return tagList;
+    }
+    public void setSteamLatelyMixed(String steamLatelyMixed) 
+    {
+        this.steamLatelyMixed = steamLatelyMixed;
+    }
+
+    public String getSteamLatelyMixed() 
+    {
+        return steamLatelyMixed;
+    }
+    public void setSteamLatelyReviewDesc(String steamLatelyReviewDesc) 
+    {
+        this.steamLatelyReviewDesc = steamLatelyReviewDesc;
+    }
+
+    public String getSteamLatelyReviewDesc() 
+    {
+        return steamLatelyReviewDesc;
+    }
+    public void setSteamAllPositive(String steamAllPositive) 
+    {
+        this.steamAllPositive = steamAllPositive;
+    }
+
+    public String getSteamAllPositive() 
+    {
+        return steamAllPositive;
+    }
+    public void setSteamAllReviewDesc(String steamAllReviewDesc) 
+    {
+        this.steamAllReviewDesc = steamAllReviewDesc;
+    }
+
+    public String getSteamAllReviewDesc() 
+    {
+        return steamAllReviewDesc;
+    }
+    public void setWebmSource(String webmSource) 
+    {
+        this.webmSource = webmSource;
+    }
+
+    public String getWebmSource() 
+    {
+        return webmSource;
+    }
+    public void setWebmHdSource(String webmHdSource) 
+    {
+        this.webmHdSource = webmHdSource;
+    }
+
+    public String getWebmHdSource() 
+    {
+        return webmHdSource;
+    }
+    public void setMp4Source(String mp4Source) 
+    {
+        this.mp4Source = mp4Source;
+    }
+
+    public String getMp4Source() 
+    {
+        return mp4Source;
+    }
+    public void setMp4HdSource(String mp4HdSource) 
+    {
+        this.mp4HdSource = mp4HdSource;
+    }
+
+    public String getMp4HdSource() 
+    {
+        return mp4HdSource;
+    }
+    public void setPoster(String poster) 
+    {
+        this.poster = poster;
+    }
+
+    public String getPoster() 
+    {
+        return poster;
+    }
+    public void setImage(String image) 
+    {
+        this.image = image;
+    }
+
+    public String getImage() 
+    {
+        return image;
     }
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
-                .append("id", getId())
-                .append("downLoadCount", getDownLoadCount())
-                .append("img", getImg())
-                .append("title", getTitle())
-                .append("subhnamever", getSubhnamever())
-                .append("subhname", getSubhname())
-                .append("releaseDate", getReleaseDate())
-                .append("developer", getDeveloper())
-                .append("gameType", getGameType())
-                .append("score", getScore())
-                .append("update", getUpdate())
-                .append("descHeightImg", getDescHeightImg())
-                .append("descImg", getDescImg())
-                .append("descVideo", getDescVideo())
-                .append("movieMax", getMovieMax())
-                .append("gameUrl", getGameUrl())
-                .append("minSpec", getMinSpec())
-                .append("desc", getDesc())
-                .append("chTitle", getChTitle())
-                .append("gameSize", getGameSize())
-                .toString();
+        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
+            .append("id", getId())
+            .append("downLoadCount", getDownLoadCount())
+            .append("coverImg", getCoverImg())
+            .append("zhTitle", getZhTitle())
+            .append("title", getTitle())
+            .append("releaseDate", getReleaseDate())
+            .append("developer", getDeveloper())
+            .append("score", getScore())
+            .append("gameUrl", getGameUrl())
+            .append("minSpec", getMinSpec())
+            .append("recommendSpec", getRecommendSpec())
+            .append("minSpec2", getMinSpec2())
+            .append("gameSize", getGameSize())
+            .append("gameDesc", getGameDesc())
+            .append("gameType", getGameType())
+            .append("gameIntroduce", getGameIntroduce())
+            .append("publisher", getPublisher())
+            .append("tagList", getTagList())
+            .append("steamLatelyMixed", getSteamLatelyMixed())
+            .append("steamLatelyReviewDesc", getSteamLatelyReviewDesc())
+            .append("steamAllPositive", getSteamAllPositive())
+            .append("steamAllReviewDesc", getSteamAllReviewDesc())
+            .append("webmSource", getWebmSource())
+            .append("webmHdSource", getWebmHdSource())
+            .append("mp4Source", getMp4Source())
+            .append("mp4HdSource", getMp4HdSource())
+            .append("poster", getPoster())
+            .append("image", getImage())
+            .toString();
     }
 }
