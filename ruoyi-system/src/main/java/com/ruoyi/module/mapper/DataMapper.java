@@ -26,7 +26,7 @@ public interface DataMapper
      * @param data module
      * @return module集合
      */
-    public List<Data> selectDataList(Data data);
+    public List<Data> selectDataListLimit(Data data);
 
     /**
      * 新增module

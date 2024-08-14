@@ -40,7 +40,8 @@ public class testGame {
             return list;
         }
         String developers = gameDetailDoc.select("div.glance_ctn div#appHeaderGridContainer div.grid_content").get(0).select("a").text();
-        String publisher = gameDetailDoc.select("div.glance_ctn div#appHeaderGridContainer div.grid_content").get(1).select("a").text();
+
+        String publisher = devAndPub.size()<=1?"":gameDetailDoc.select("div.glance_ctn div#appHeaderGridContainer div.grid_content").get(1).select("a").text();
 
         StringBuilder webmSource = new StringBuilder();
         StringBuilder webmHdSource = new StringBuilder();

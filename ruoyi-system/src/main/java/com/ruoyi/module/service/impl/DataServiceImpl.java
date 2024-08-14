@@ -39,9 +39,9 @@ public class DataServiceImpl implements IDataService
      * @return module
      */
     @Override
-    public List<Data> selectDataList(Data data)
+    public List<Data> selectDataListLimit(Data data)
     {
-        return dataMapper.selectDataList(data);
+        return dataMapper.selectDataListLimit(data);
     }
 
     /**

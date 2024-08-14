@@ -13,6 +13,7 @@ public class test {
     public static void main(String[] args) throws Exception {
         getInfoDetails();
     }
+
     private static void getInfoDetails() throws Exception{
         Document movieEle = Jsoup.connect("https://search.douban.com/movie/subject_search?search_text=凡人修仙传").userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36").data().get();
         Element scriptElement = movieEle.select("script").get(6);

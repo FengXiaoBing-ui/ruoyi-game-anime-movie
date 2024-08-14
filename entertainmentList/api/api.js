@@ -2,10 +2,10 @@ import req from "./request.js"
 
 export default {
 	getList(data){
-		return req.ajaxRequest({url:"/module/data/list",data})
+		return req.ajaxRequest({url:"/module/dataGame/list",data})
 	},
 	getListDeatils(data){
-		return req.ajaxRequest({url:`/module/data/${data}`})
+		return req.ajaxRequest({url:`/module/dataGame/${data}`})
 	},
 	getMoveList(data){
 		return req.ajaxRequest({url:"/module/anime/list",data})

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.module.mapper.DataChildMapper">
+
+    <resultMap type="DataChild" id="DataChildResult">
+        <result property="id" column="id"/>
+        <result property="minSpec" column="min_spec"/>
+        <result property="recommendSpec" column="recommend_spec"/>
+        <result property="minSpec2" column="min_spec2"/>
+        <result property="gameDesc" column="game_desc"/>
+        <result property="gameIntroduce" column="game_introduce"/>
+        <result property="steamLatelyMixed" column="steam_lately_mixed"/>
+        <result property="steamLatelyReviewDesc" column="steam_lately_review_desc"/>
+        <result property="steamAllPositive" column="steam_all_positive"/>
+        <result property="steamAllReviewDesc" column="steam_all_review_desc"/>
+        <result property="webmSource" column="webm_source"/>
+        <result property="webmHdSource" column="webm_hd_source"/>
+        <result property="mp4Source" column="mp4_source"/>
+        <result property="mp4HdSource" column="mp4_hd_source"/>
+        <result property="poster" column="poster"/>
+        <result property="image" column="image"/>
+    </resultMap>
+
+    <sql id="selectDataChildVo">
+        select id,
+               min_spec,
+               recommend_spec,
+               min_spec2,
+               game_desc,
+               game_introduce,
+               steam_lately_mixed,
+               steam_lately_review_desc,
+               steam_all_positive,
+               steam_all_review_desc,
+               webm_source,
+               webm_hd_source,
+               mp4_source,
+               mp4_hd_source,
+               poster,
+               image
+        from data_child
+    </sql>
+
+    <select id="selectDataChildList" parameterType="DataChild" resultMap="DataChildResult">
+        <include refid="selectDataChildVo"/>
+        <where>
+            <if test="id != null">and id = #{id}</if>
+            <if test="minSpec != null  and minSpec != ''">and min_spec = #{minSpec}</if>
+            <if test="recommendSpec != null  and recommendSpec != ''">and recommend_spec = #{recommendSpec}</if>
+            <if test="minSpec2 != null  and minSpec2 != ''">and min_spec2 = #{minSpec2}</if>
+            <if test="gameDesc != null  and gameDesc != ''">and game_desc = #{gameDesc}</if>
+            <if test="gameIntroduce != null  and gameIntroduce != ''">and game_introduce = #{gameIntroduce}</if>
+            <if test="steamLatelyMixed != null  and steamLatelyMixed != ''">and steam_lately_mixed =
+                #{steamLatelyMixed}
+            </if>
+            <if test="steamLatelyReviewDesc != null  and steamLatelyReviewDesc != ''">and steam_lately_review_desc =
+                #{steamLatelyReviewDesc}
+            </if>
+            <if test="steamAllPositive != null  and steamAllPositive != ''">and steam_all_positive =
+                #{steamAllPositive}
+            </if>
+            <if test="steamAllReviewDesc != null  and steamAllReviewDesc != ''">and steam_all_review_desc =
+                #{steamAllReviewDesc}
+            </if>
+            <if test="webmSource != null  and webmSource != ''">and webm_source = #{webmSource}</if>
+            <if test="webmHdSource != null  and webmHdSource != ''">and webm_hd_source = #{webmHdSource}</if>
+            <if test="mp4Source != null  and mp4Source != ''">and mp4_source = #{mp4Source}</if>
+            <if test="mp4HdSource != null  and mp4HdSource != ''">and mp4_hd_source = #{mp4HdSource}</if>
+            <if test="poster != null  and poster != ''">and poster = #{poster}</if>
+            <if test="image != null  and image != ''">and image = #{image}</if>
+        </where>
+    </select>
+
+    <select id="selectDataChildById" parameterType="Long" resultMap="DataChildResult">
+        <include refid="selectDataChildVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertDataChild" parameterType="DataChild">
+        insert into data_child
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="minSpec != null">min_spec,</if>
+            <if test="recommendSpec != null">recommend_spec,</if>
+            <if test="minSpec2 != null">min_spec2,</if>
+            <if test="gameDesc != null">game_desc,</if>
+            <if test="gameIntroduce != null">game_introduce,</if>
+            <if test="steamLatelyMixed != null">steam_lately_mixed,</if>
+            <if test="steamLatelyReviewDesc != null">steam_lately_review_desc,</if>
+            <if test="steamAllPositive != null">steam_all_positive,</if>
+            <if test="steamAllReviewDesc != null">steam_all_review_desc,</if>
+            <if test="webmSource != null">webm_source,</if>
+            <if test="webmHdSource != null">webm_hd_source,</if>
+            <if test="mp4Source != null">mp4_source,</if>
+            <if test="mp4HdSource != null">mp4_hd_source,</if>
+            <if test="poster != null">poster,</if>
+            <if test="image != null">image,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="minSpec != null">#{minSpec},</if>
+            <if test="recommendSpec != null">#{recommendSpec},</if>
+            <if test="minSpec2 != null">#{minSpec2},</if>
+            <if test="gameDesc != null">#{gameDesc},</if>
+            <if test="gameIntroduce != null">#{gameIntroduce},</if>
+            <if test="steamLatelyMixed != null">#{steamLatelyMixed},</if>
+            <if test="steamLatelyReviewDesc != null">#{steamLatelyReviewDesc},</if>
+            <if test="steamAllPositive != null">#{steamAllPositive},</if>
+            <if test="steamAllReviewDesc != null">#{steamAllReviewDesc},</if>
+            <if test="webmSource != null">#{webmSource},</if>
+            <if test="webmHdSource != null">#{webmHdSource},</if>
+            <if test="mp4Source != null">#{mp4Source},</if>
+            <if test="mp4HdSource != null">#{mp4HdSource},</if>
+            <if test="poster != null">#{poster},</if>
+            <if test="image != null">#{image},</if>
+        </trim>
+    </insert>
+
+    <update id="updateDataChild" parameterType="DataChild">
+        update data_child
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="minSpec != null">min_spec = #{minSpec},</if>
+            <if test="recommendSpec != null">recommend_spec = #{recommendSpec},</if>
+            <if test="minSpec2 != null">min_spec2 = #{minSpec2},</if>
+            <if test="gameDesc != null">game_desc = #{gameDesc},</if>
+            <if test="gameIntroduce != null">game_introduce = #{gameIntroduce},</if>
+            <if test="steamLatelyMixed != null">steam_lately_mixed = #{steamLatelyMixed},</if>
+            <if test="steamLatelyReviewDesc != null">steam_lately_review_desc = #{steamLatelyReviewDesc},</if>
+            <if test="steamAllPositive != null">steam_all_positive = #{steamAllPositive},</if>
+            <if test="steamAllReviewDesc != null">steam_all_review_desc = #{steamAllReviewDesc},</if>
+            <if test="webmSource != null">webm_source = #{webmSource},</if>
+            <if test="webmHdSource != null">webm_hd_source = #{webmHdSource},</if>
+            <if test="mp4Source != null">mp4_source = #{mp4Source},</if>
+            <if test="mp4HdSource != null">mp4_hd_source = #{mp4HdSource},</if>
+            <if test="poster != null">poster = #{poster},</if>
+            <if test="image != null">image = #{image},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteDataChildById" parameterType="Long">
+        delete
+        from data_child
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteDataChildByIds" parameterType="String">
+        delete from data_child where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

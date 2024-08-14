@@ -5,9 +5,9 @@
 		</up-sticky>
 		<div class="content">
 			<view class="list" v-for="item in list" :key="item.id" @click="goDetails(item.id)">
-				<image class="cover" :src="item.img" mode="aspectFill"></image>
+				<image class="cover" :src="item.coverImg" mode="aspectFill"></image>
 				<view class="padding-xs flex flex-direction">
-					<text class="text-bold text-cut text-lg">{{ item.chTitle }}</text>
+					<text class="text-bold text-cut text-lg">{{ item.zhTitle }}</text>
 					<text class="">{{ item.title }}</text>
 					<text class="text-sm text-gray light">下载量：{{ item.downLoadCount }}</text>
 					<text class="text-sm text-gray light">发布时间：{{ item.releaseDate }}</text>
@@ -26,7 +26,7 @@
 			return {
 				list:[],
 				total:1,
-				pageSize:10,
+				pageSize:6,
 				pageNum:1,
 				keyWord:"",
 				status:"loadmore"
@@ -54,24 +54,18 @@
 			},
 			init(){
 				this.pageNum = 1
-				this.pageSize = 10
+				this.pageSize = 6
 				this.list = []
 			},
 			async getGameList(){
 				this.status = 'loading';
-				uni.request({
-					url:config.BASE_URL + "/module/data/list",
-					method:"GET",
-					data:{pageNum:this.pageNum,pageSize:this.pageSize,title:this.keyWord},
-					success: (res) => {
-						this.list = [...this.list,...res.data.rows]
-						this.total = res.data.total
-						this.status = 'loadmore';
-						if(this.pageNum * this.pageSize>=this.total) {
-							this.status = 'nomore';
-						}
-					}
-				})
+				const res = await this.$http.getList({pageNum:this.pageNum,pageSize:this.pageSize,title:this.keyWord,})
+				this.list = [...this.list,...res.rows]
+				this.total = res.total
+				this.status = 'loadmore';
+				if(this.pageNum * this.pageSize>=this.total) {
+					this.status = 'nomore';
+				}
 			},
 			goDetails(id){
 				uni.navigateTo({

@@ -1,18 +1,18 @@
 <template>
 	<view class="padding-xs padding-bottom-lg">
-		<view class="flex align-stretch justify-between margin-top-sm">
-			<image class="cover" :src="info.img" mode="aspectFill"></image>
-			<view class="flex flex-direction justify-between" style="width: 420rpx;">
-				<view class="text-bold text-xl">{{ info.chTitle }}</view>
-				<view class="text text-gray">英文名：{{ info.title }}</view>
+		<view class="" style="display: flex;">
+			<image class="cover" :src="info.coverImg" mode="aspectFill"></image>
+			<view style="width: 420rpx;display: flex;flex-direction: column;justify-content: space-between;">
+				<view class="text-bold text-xl">{{ info.zhTitle }}</view>
 				<view class="text text-gray">类型：{{ info.gameType }}</view>
 				<view class="text text-gray">发售日期：{{ info.releaseDate }}</view>
 				<view class="text text-gray">开发商：{{ info.developer }}</view>
 				<view class="text text-gray">大小：{{ info.gameSize }}</view>
-				<view class="text-sm text-gray">{{ info.subhnamever }} {{ info.subhname }}</view>
 				<view class="text text-gray">评分：{{ info.score }}</view>
 			</view>
 		</view>
+		<view class="text-sm text-gray">标签：{{ info.tagList }}</view>
+		<view class="text-sm text-gray">{{ info.gameDesc }}</view>
 		<view class="margin-top-sm">
 			<uni-link :href="info.gameUrl" text="种子下载"></uni-link>
 		</view>
@@ -20,7 +20,7 @@
 			<view class="text-lg text-bold">
 				游戏简介：
 			</view>
-			<view class="margin-top-xs">{{ info.desc }}</view>
+			<view class="margin-top-xs gameIntroduce" v-html="info.gameIntroduce"></view>
 		</view>
 		<view class="margin-top-sm" v-if="info.video">
 			<video style="width: 100%;" :src="info.video[1]" controls></video>
@@ -36,7 +36,9 @@
 			<view class="text-lg text-bold">
 				配置：
 			</view>
-			<view class="margin-top-xs" v-html="info.minSpec"></view>
+			<view v-if="info.minSpec" class="margin-top-xs" v-html="info.minSpec"></view>
+			<view v-if="info.minSpec2" class="margin-top-xs" v-html="info.minSpec2"></view>
+			<view v-if="info.recommendSpec" class="margin-top-xs" v-html="info.recommendSpec"></view>
 		</view>
 	</view>
 </template>

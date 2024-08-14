@@ -1,77 +1,129 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.module.mapper.DataMapper">
-    
+
     <resultMap type="Data" id="DataResult">
-        <result property="id"    column="id"    />
-        <result property="downLoadCount"    column="down_load_count"    />
-        <result property="coverImg"    column="cover_img"    />
-        <result property="zhTitle"    column="zh_title"    />
-        <result property="title"    column="title"    />
-        <result property="releaseDate"    column="release_date"    />
-        <result property="developer"    column="developer"    />
-        <result property="score"    column="score"    />
-        <result property="gameUrl"    column="game_url"    />
-        <result property="minSpec"    column="min_spec"    />
-        <result property="recommendSpec"    column="recommend_spec"    />
-        <result property="minSpec2"    column="min_spec2"    />
-        <result property="gameSize"    column="game_size"    />
-        <result property="gameDesc"    column="game_desc"    />
-        <result property="gameType"    column="game_type"    />
-        <result property="gameIntroduce"    column="game_introduce"    />
-        <result property="publisher"    column="publisher"    />
-        <result property="tagList"    column="tag_list"    />
-        <result property="steamLatelyMixed"    column="steam_lately_mixed"    />
-        <result property="steamLatelyReviewDesc"    column="steam_lately_review_desc"    />
-        <result property="steamAllPositive"    column="steam_all_positive"    />
-        <result property="steamAllReviewDesc"    column="steam_all_review_desc"    />
-        <result property="webmSource"    column="webm_source"    />
-        <result property="webmHdSource"    column="webm_hd_source"    />
-        <result property="mp4Source"    column="mp4_source"    />
-        <result property="mp4HdSource"    column="mp4_hd_source"    />
-        <result property="poster"    column="poster"    />
-        <result property="image"    column="image"    />
+        <result property="id" column="id"/>
+        <result property="downLoadCount" column="down_load_count"/>
+        <result property="coverImg" column="cover_img"/>
+        <result property="zhTitle" column="zh_title"/>
+        <result property="title" column="title"/>
+        <result property="releaseDate" column="release_date"/>
+        <result property="developer" column="developer"/>
+        <result property="score" column="score"/>
+        <result property="gameUrl" column="game_url"/>
+        <result property="gameSize" column="game_size"/>
+        <result property="gameType" column="game_type"/>
+        <result property="publisher" column="publisher"/>
+        <result property="tagList" column="tag_list"/>
+        <result property="gameSizeKb" column="game_size_kb"/>
     </resultMap>
 
+    <sql id="selectDataLimitVo">
+        select id,
+               down_load_count,
+               cover_img,
+               zh_title,
+               title,
+               release_date,
+               developer,
+               score,
+               game_size,
+               game_type,
+               publisher,
+               tag_list,
+        from data
+    </sql>
+
+    <select id="selectDataListLimit" parameterType="Data" resultMap="DataResult">
+        SELECT id,
+        down_load_count,
+        cover_img,
+        zh_title,
+        release_date FROM `entertainment`.`data`
+        <where>
+            <if test="downLoadCount != null ">and down_load_count = #{downLoadCount}</if>
+            <if test="coverImg != null  and coverImg != ''">and cover_img = #{coverImg}</if>
+            <if test="zhTitle != null  and zhTitle != ''">and zh_title like concat('%', #{zhTitle}, '%')</if>
+            <if test="title != null  and title != ''">and (title like concat('%', #{title}, '%') or (zh_title like
+                concat('%', #{title}, '%')))
+            </if>
+            <if test="releaseDate != null  and releaseDate != ''">and release_date = #{releaseDate}</if>
+            <if test="developer != null  and developer != ''">and developer = #{developer}</if>
+            <if test="score != null  and score != ''">and score = #{score}</if>
+            <if test="gameUrl != null  and gameUrl != ''">and game_url = #{gameUrl}</if>
+            <if test="gameSize != null  and gameSize != ''">and game_size = #{gameSize}</if>
+            <if test="gameType != null  and gameType != ''">and game_type = #{gameType}</if>
+            <if test="publisher != null  and publisher != ''">and publisher = #{publisher}</if>
+            <if test="tagList != null  and tagList != ''">and tag_list = #{tagList}</if>
+        </where>
+        ORDER BY `release_date` DESC
+    </select>
+
     <sql id="selectDataVo">
-        select id, down_load_count, cover_img, zh_title, title, release_date, developer, score, game_url, min_spec, recommend_spec, min_spec2, game_size, game_desc, game_type, game_introduce, publisher, tag_list, steam_lately_mixed, steam_lately_review_desc, steam_all_positive, steam_all_review_desc, webm_source, webm_hd_source, mp4_source, mp4_hd_source, poster, image from data
+        select id,
+               down_load_count,
+               cover_img,
+               zh_title,
+               title,
+               release_date,
+               developer,
+               score,
+               game_url,
+               game_size,
+               game_type,
+               publisher,
+               tag_list,
+               game_size_kb
+        from data
     </sql>
 
     <select id="selectDataList" parameterType="Data" resultMap="DataResult">
         <include refid="selectDataVo"/>
-        <where>  
-            <if test="downLoadCount != null "> and down_load_count = #{downLoadCount}</if>
-            <if test="coverImg != null  and coverImg != ''"> and cover_img = #{coverImg}</if>
-            <if test="zhTitle != null  and zhTitle != ''"> and zh_title = #{zhTitle}</if>
-            <if test="title != null  and title != ''"> and title = #{title}</if>
-            <if test="releaseDate != null  and releaseDate != ''"> and release_date = #{releaseDate}</if>
-            <if test="developer != null  and developer != ''"> and developer = #{developer}</if>
-            <if test="score != null  and score != ''"> and score = #{score}</if>
-            <if test="gameUrl != null  and gameUrl != ''"> and game_url = #{gameUrl}</if>
-            <if test="minSpec != null  and minSpec != ''"> and min_spec = #{minSpec}</if>
-            <if test="recommendSpec != null  and recommendSpec != ''"> and recommend_spec = #{recommendSpec}</if>
-            <if test="minSpec2 != null  and minSpec2 != ''"> and min_spec2 = #{minSpec2}</if>
-            <if test="gameSize != null  and gameSize != ''"> and game_size = #{gameSize}</if>
-            <if test="gameDesc != null  and gameDesc != ''"> and game_desc = #{gameDesc}</if>
-            <if test="gameType != null  and gameType != ''"> and game_type = #{gameType}</if>
-            <if test="gameIntroduce != null  and gameIntroduce != ''"> and game_introduce = #{gameIntroduce}</if>
-            <if test="publisher != null  and publisher != ''"> and publisher = #{publisher}</if>
-            <if test="tagList != null  and tagList != ''"> and tag_list = #{tagList}</if>
-            <if test="steamLatelyMixed != null  and steamLatelyMixed != ''"> and steam_lately_mixed = #{steamLatelyMixed}</if>
-            <if test="steamLatelyReviewDesc != null  and steamLatelyReviewDesc != ''"> and steam_lately_review_desc = #{steamLatelyReviewDesc}</if>
-            <if test="steamAllPositive != null  and steamAllPositive != ''"> and steam_all_positive = #{steamAllPositive}</if>
-            <if test="steamAllReviewDesc != null  and steamAllReviewDesc != ''"> and steam_all_review_desc = #{steamAllReviewDesc}</if>
-            <if test="webmSource != null  and webmSource != ''"> and webm_source = #{webmSource}</if>
-            <if test="webmHdSource != null  and webmHdSource != ''"> and webm_hd_source = #{webmHdSource}</if>
-            <if test="mp4Source != null  and mp4Source != ''"> and mp4_source = #{mp4Source}</if>
-            <if test="mp4HdSource != null  and mp4HdSource != ''"> and mp4_hd_source = #{mp4HdSource}</if>
-            <if test="poster != null  and poster != ''"> and poster = #{poster}</if>
-            <if test="image != null  and image != ''"> and image = #{image}</if>
+        <where>
+            <if test="downLoadCount != null ">and down_load_count = #{downLoadCount}</if>
+            <if test="coverImg != null  and coverImg != ''">and cover_img = #{coverImg}</if>
+            <if test="zhTitle != null  and zhTitle != ''">and zh_title like concat('%', #{zhTitle}, '%')</if>
+            <if test="title != null  and title != ''">and (title like concat('%', #{title}, '%') or (zh_title like
+                concat('%', #{title}, '%')))
+            </if>
+            <if test="releaseDate != null  and releaseDate != ''">and release_date = #{releaseDate}</if>
+            <if test="developer != null  and developer != ''">and developer = #{developer}</if>
+            <if test="score != null  and score != ''">and score = #{score}</if>
+            <if test="gameUrl != null  and gameUrl != ''">and game_url = #{gameUrl}</if>
+            <if test="minSpec != null  and minSpec != ''">and min_spec = #{minSpec}</if>
+            <if test="recommendSpec != null  and recommendSpec != ''">and recommend_spec = #{recommendSpec}</if>
+            <if test="minSpec2 != null  and minSpec2 != ''">and min_spec2 = #{minSpec2}</if>
+            <if test="gameSize != null  and gameSize != ''">and game_size = #{gameSize}</if>
+            <if test="gameDesc != null  and gameDesc != ''">and game_desc = #{gameDesc}</if>
+            <if test="gameType != null  and gameType != ''">and game_type = #{gameType}</if>
+            <if test="gameIntroduce != null  and gameIntroduce != ''">and game_introduce = #{gameIntroduce}</if>
+            <if test="publisher != null  and publisher != ''">and publisher = #{publisher}</if>
+            <if test="tagList != null  and tagList != ''">and tag_list = #{tagList}</if>
+            <if test="steamLatelyMixed != null  and steamLatelyMixed != ''">and steam_lately_mixed =
+                #{steamLatelyMixed}
+            </if>
+            <if test="steamLatelyReviewDesc != null  and steamLatelyReviewDesc != ''">and steam_lately_review_desc =
+                #{steamLatelyReviewDesc}
+            </if>
+            <if test="steamAllPositive != null  and steamAllPositive != ''">and steam_all_positive =
+                #{steamAllPositive}
+            </if>
+            <if test="steamAllReviewDesc != null  and steamAllReviewDesc != ''">and steam_all_review_desc =
+                #{steamAllReviewDesc}
+            </if>
+            <if test="webmSource != null  and webmSource != ''">and webm_source = #{webmSource}</if>
+            <if test="webmHdSource != null  and webmHdSource != ''">and webm_hd_source = #{webmHdSource}</if>
+            <if test="mp4Source != null  and mp4Source != ''">and mp4_source = #{mp4Source}</if>
+            <if test="mp4HdSource != null  and mp4HdSource != ''">and mp4_hd_source = #{mp4HdSource}</if>
+            <if test="poster != null  and poster != ''">and poster = #{poster}</if>
+            <if test="image != null  and image != ''">and image = #{image}</if>
         </where>
+        order by release_date desc
     </select>
-    
+
     <select id="selectDataById" parameterType="Long" resultMap="DataResult">
         <include refid="selectDataVo"/>
         where id = #{id}
@@ -88,55 +140,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="developer != null">developer,</if>
             <if test="score != null">score,</if>
             <if test="gameUrl != null">game_url,</if>
-            <if test="minSpec != null">min_spec,</if>
-            <if test="recommendSpec != null">recommend_spec,</if>
-            <if test="minSpec2 != null">min_spec2,</if>
             <if test="gameSize != null">game_size,</if>
-            <if test="gameDesc != null">game_desc,</if>
             <if test="gameType != null">game_type,</if>
-            <if test="gameIntroduce != null">game_introduce,</if>
             <if test="publisher != null">publisher,</if>
             <if test="tagList != null">tag_list,</if>
-            <if test="steamLatelyMixed != null">steam_lately_mixed,</if>
-            <if test="steamLatelyReviewDesc != null">steam_lately_review_desc,</if>
-            <if test="steamAllPositive != null">steam_all_positive,</if>
-            <if test="steamAllReviewDesc != null">steam_all_review_desc,</if>
-            <if test="webmSource != null">webm_source,</if>
-            <if test="webmHdSource != null">webm_hd_source,</if>
-            <if test="mp4Source != null">mp4_source,</if>
-            <if test="mp4HdSource != null">mp4_hd_source,</if>
-            <if test="poster != null">poster,</if>
-            <if test="image != null">image,</if>
-         </trim>
+            <if test="gameSizeKb != null">game_size_kb,</if>
+        </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="downLoadCount != null">#{downLoadCount},</if>
             <if test="coverImg != null">#{coverImg},</if>
             <if test="zhTitle != null">#{zhTitle},</if>
             <if test="title != null">#{title},</if>
-            <if test="releaseDate != null">#{releaseDate},</if>
+            <if test="releaseDate != null">str_to_date(#{releaseDate},'%Y-%m-%d'),</if>
             <if test="developer != null">#{developer},</if>
             <if test="score != null">#{score},</if>
             <if test="gameUrl != null">#{gameUrl},</if>
-            <if test="minSpec != null">#{minSpec},</if>
-            <if test="recommendSpec != null">#{recommendSpec},</if>
-            <if test="minSpec2 != null">#{minSpec2},</if>
             <if test="gameSize != null">#{gameSize},</if>
-            <if test="gameDesc != null">#{gameDesc},</if>
             <if test="gameType != null">#{gameType},</if>
-            <if test="gameIntroduce != null">#{gameIntroduce},</if>
             <if test="publisher != null">#{publisher},</if>
             <if test="tagList != null">#{tagList},</if>
-            <if test="steamLatelyMixed != null">#{steamLatelyMixed},</if>
-            <if test="steamLatelyReviewDesc != null">#{steamLatelyReviewDesc},</if>
-            <if test="steamAllPositive != null">#{steamAllPositive},</if>
-            <if test="steamAllReviewDesc != null">#{steamAllReviewDesc},</if>
-            <if test="webmSource != null">#{webmSource},</if>
-            <if test="webmHdSource != null">#{webmHdSource},</if>
-            <if test="mp4Source != null">#{mp4Source},</if>
-            <if test="mp4HdSource != null">#{mp4HdSource},</if>
-            <if test="poster != null">#{poster},</if>
-            <if test="image != null">#{image},</if>
-         </trim>
+            <if test="gameSizeKb != null">#{gameSizeKb},</if>
+        </trim>
     </insert>
 
     <update id="updateData" parameterType="Data">
@@ -150,35 +174,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="developer != null">developer = #{developer},</if>
             <if test="score != null">score = #{score},</if>
             <if test="gameUrl != null">game_url = #{gameUrl},</if>
-            <if test="minSpec != null">min_spec = #{minSpec},</if>
-            <if test="recommendSpec != null">recommend_spec = #{recommendSpec},</if>
-            <if test="minSpec2 != null">min_spec2 = #{minSpec2},</if>
             <if test="gameSize != null">game_size = #{gameSize},</if>
-            <if test="gameDesc != null">game_desc = #{gameDesc},</if>
             <if test="gameType != null">game_type = #{gameType},</if>
-            <if test="gameIntroduce != null">game_introduce = #{gameIntroduce},</if>
             <if test="publisher != null">publisher = #{publisher},</if>
             <if test="tagList != null">tag_list = #{tagList},</if>
-            <if test="steamLatelyMixed != null">steam_lately_mixed = #{steamLatelyMixed},</if>
-            <if test="steamLatelyReviewDesc != null">steam_lately_review_desc = #{steamLatelyReviewDesc},</if>
-            <if test="steamAllPositive != null">steam_all_positive = #{steamAllPositive},</if>
-            <if test="steamAllReviewDesc != null">steam_all_review_desc = #{steamAllReviewDesc},</if>
-            <if test="webmSource != null">webm_source = #{webmSource},</if>
-            <if test="webmHdSource != null">webm_hd_source = #{webmHdSource},</if>
-            <if test="mp4Source != null">mp4_source = #{mp4Source},</if>
-            <if test="mp4HdSource != null">mp4_hd_source = #{mp4HdSource},</if>
-            <if test="poster != null">poster = #{poster},</if>
-            <if test="image != null">image = #{image},</if>
+            <if test="gameSizeKb != null">game_size_kb = #{gameSizeKb},</if>
         </trim>
         where id = #{id}
     </update>
 
     <delete id="deleteDataById" parameterType="Long">
-        delete from data where id = #{id}
+        delete
+        from data
+        where id = #{id}
     </delete>
 
     <delete id="deleteDataByIds" parameterType="String">
-        delete from data where id in 
+        delete from data where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>
