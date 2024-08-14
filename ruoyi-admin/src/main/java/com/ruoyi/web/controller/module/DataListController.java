@@ -49,14 +49,14 @@ public class DataListController extends BaseController {
         List<String> list = Lists.newArrayList();
 
         String pageUrl = "https://byruthub.org";
-        Document pageDoc = Jsoup.connect(pageUrl).proxy(proxyHost, proxyPort).userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36").data().get();
+        Document pageDoc = Jsoup.connect(pageUrl).proxy(proxyHost, proxyPort).timeout(100000).userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36").data().get();
         Elements pages = pageDoc.select("div.navigation div.pages a");
         Integer total = Integer.parseInt(pages.last().text());
         System.out.println(total);
-        for (int i = 23; i < total; i++) {
+        for (int i = 286; i < total; i++) {
             System.out.println("第---"+i+"---页");
             String url = "https://byruthub.org/page/" + i;
-            Document doc = Jsoup.connect(url).proxy(proxyHost, proxyPort).userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36").data().get();
+            Document doc = Jsoup.connect(url).proxy(proxyHost, proxyPort).timeout(100000).userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36").data().get();
             Elements movies = doc.select("div#dle-content div.short_item");
             for (int j = 0; j < movies.size(); j++) {
                 Element movie = movies.get(j);
@@ -67,7 +67,12 @@ public class DataListController extends BaseController {
                 Elements shortItem = docDetails.select("main.main article.main_content");
                 List<String> arr = Lists.newArrayList();
                 String title = shortItem.select("div.fmainwrap div.game_details div.hname h1").text();
-                arr.add("downLoadCount-------" + shortItem.select("div.min-details span.pr4").text().replace(" ", ""));
+                String dlc = shortItem.select("div.min-details span.pr4").text();
+                System.out.println("downLoadCount-------" + dlc.equals(""));
+                if(dlc.equals("")){
+                    continue;
+                }
+                arr.add("downLoadCount-------" + dlc.replace(" ", ""));
                 arr.add("coverImg-------https://byruthub.org" + shortItem.select("div.fmainwrap div.poster-imgbox img.imgbox").attr("src"));
                 arr.add("title-------" + title);
                 arr.add("score-------" + shortItem.select("div.fmainwrap div.game_details div.low-info div.ratingbox div.rate-label").text());
