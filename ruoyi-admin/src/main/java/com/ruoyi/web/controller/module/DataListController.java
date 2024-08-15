@@ -58,7 +58,7 @@ public class DataListController extends BaseController {
         Elements pages = pageDoc.select("div.navigation div.pages a");
         Integer total = Integer.parseInt(pages.last().text());
         System.out.println(total);
-        for (int i = 318; i < total; i++) {
+        for (int i = 724; i < total; i++) {
             System.out.println("第---"+i+"---页");
             String url = "https://byruthub.org/page/" + i;
             Document doc = Jsoup.connect(url).proxy(proxyHost, proxyPort).timeout(100000).userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36").data().get();
