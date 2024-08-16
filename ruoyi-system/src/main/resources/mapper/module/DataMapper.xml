@@ -19,6 +19,7 @@
         <result property="publisher" column="publisher"/>
         <result property="tagList" column="tag_list"/>
         <result property="gameSizeKb" column="game_size_kb"/>
+        <result property="gameId" column="game_id"/>
     </resultMap>
 
     <sql id="selectDataLimitVo">
@@ -34,6 +35,7 @@
                game_type,
                publisher,
                tag_list,
+               game_id
         from data
     </sql>
 
@@ -58,6 +60,7 @@
             <if test="gameType != null  and gameType != ''">and game_type = #{gameType}</if>
             <if test="publisher != null  and publisher != ''">and publisher = #{publisher}</if>
             <if test="tagList != null  and tagList != ''">and tag_list = #{tagList}</if>
+            <if test="gameId != null  and gameId != ''">and game_id = #{gameId}</if>
         </where>
         ORDER BY `release_date` DESC
     </select>
@@ -76,7 +79,8 @@
                game_type,
                publisher,
                tag_list,
-               game_size_kb
+               game_size_kb,
+               game_id
         from data
     </sql>
 
@@ -145,6 +149,7 @@
             <if test="publisher != null">publisher,</if>
             <if test="tagList != null">tag_list,</if>
             <if test="gameSizeKb != null">game_size_kb,</if>
+            <if test="gameId != null">game_id,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="downLoadCount != null">#{downLoadCount},</if>
@@ -160,6 +165,7 @@
             <if test="publisher != null">#{publisher},</if>
             <if test="tagList != null">#{tagList},</if>
             <if test="gameSizeKb != null">#{gameSizeKb},</if>
+            <if test="gameId != null">#{gameId},</if>
         </trim>
     </insert>
 
@@ -179,6 +185,15 @@
             <if test="publisher != null">publisher = #{publisher},</if>
             <if test="tagList != null">tag_list = #{tagList},</if>
             <if test="gameSizeKb != null">game_size_kb = #{gameSizeKb},</if>
+            <if test="gameId != null">game_id = #{gameId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <update id="updateGameId" parameterType="Data">
+        update data
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="gameId != null">game_id = #{gameId},</if>
         </trim>
         where id = #{id}
     </update>
@@ -198,6 +213,11 @@
 
     <select id="selectDataByTitle" parameterType="DataMovie" resultMap="DataResult">
         <include refid="selectDataVo"/>
-        where title = #{title}
+        where game_id = #{gameId}
+    </select>
+
+    <select id="selectDataTitle" parameterType="DataMovie" resultMap="DataResult">
+        <include refid="selectDataVo"/>
+        where game_id = #{gameId}
     </select>
 </mapper>

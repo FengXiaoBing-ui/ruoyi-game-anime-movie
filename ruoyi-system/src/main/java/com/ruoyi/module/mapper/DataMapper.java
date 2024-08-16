@@ -1,6 +1,7 @@
 package com.ruoyi.module.mapper;
 
 import com.ruoyi.module.domain.Data;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -60,5 +61,9 @@ public interface DataMapper
      */
     public int deleteDataByIds(Long[] ids);
 
-    List<Data> selectDataByTitle(String title);
+    List<Data> selectDataByTitle(Long gameId);
+
+    List<Data> selectDataTitle(@Param("title") String title);
+
+    public int updateGameId(Data data);
 }

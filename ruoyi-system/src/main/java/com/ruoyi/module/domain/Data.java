@@ -98,4 +98,9 @@ public class Data extends BaseEntity {
     @Excel(name = "文字大小kb")
     private Double gameSizeKb;
 
+    /**
+     * 游戏ID
+     */
+    @Excel(name = "游戏ID")
+    private Long gameId;
 }

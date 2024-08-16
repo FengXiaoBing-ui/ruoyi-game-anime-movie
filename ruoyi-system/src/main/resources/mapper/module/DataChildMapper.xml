@@ -140,6 +140,7 @@
         where id = #{id}
     </update>
 
+
     <delete id="deleteDataChildById" parameterType="Long">
         delete
         from data_child

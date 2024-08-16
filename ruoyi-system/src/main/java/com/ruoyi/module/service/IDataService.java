@@ -60,5 +60,5 @@ public interface IDataService
      */
     public int deleteDataById(Long id);
 
-    List<Data> selectDataByTitle(String title);
+    List<Data> selectDataByTitle(Long gameId);
 }

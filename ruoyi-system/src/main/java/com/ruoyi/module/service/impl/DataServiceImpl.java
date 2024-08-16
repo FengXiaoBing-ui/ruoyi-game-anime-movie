@@ -93,7 +93,7 @@ public class DataServiceImpl implements IDataService
     }
 
     @Override
-    public List<Data> selectDataByTitle(String title) {
-        return dataMapper.selectDataByTitle(title);
+    public List<Data> selectDataByTitle(Long gameId) {
+        return dataMapper.selectDataByTitle(gameId);
     }
 }
