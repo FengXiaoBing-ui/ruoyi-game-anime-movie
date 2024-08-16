@@ -28,6 +28,16 @@ public class testGame {
             return list;
         };
         String gameDetailUrl = gameDoc.select("div#search_resultsRows a").get(0).attr("href");
+        Elements gameTitle = gameDoc.select("div#search_resultsRows span.title");
+        boolean flag = false;
+        for (int i = 0; i < gameTitle.size(); i++) {
+            if(name.equals(gameTitle.get(i).text())){
+                flag = true;
+            }
+        }
+        if(!flag){
+            return list;
+        }
         Thread.sleep(500);
         Document gameDetailDoc = Jsoup.connect(gameDetailUrl).proxy(proxyHost,proxyPort).timeout(100000).userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36").header("accept-language","zh-CN,zh;q=0.9,en;q=0.8,eo;q=0.7").cookie("cookie","wants_mature_content=1;Steam_Language=schinese;browserid=3494315867708484772; sessionid=0889b05865171bd651544e96; timezoneOffset=28800,0; birthtime=599587201; lastagecheckage=1-January-1989").data().get();
         String title = gameDetailDoc.select("div#appHubAppName").text();

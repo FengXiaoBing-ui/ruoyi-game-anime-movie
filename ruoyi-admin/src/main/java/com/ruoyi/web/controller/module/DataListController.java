@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -50,32 +51,21 @@ public class DataListController extends BaseController {
         return success();
     }
 
+
+
+    @Anonymous
+    @GetMapping(value = "test")
+    public AjaxResult getTest() throws Exception {
+        testGame();
+        return success();
+    }
+
     private void testGame() throws Exception{
         String proxyHost = "127.0.0.1";
         int proxyPort = 7890;
-        for (int i = 1; i < 1000; i++) {
-            String url = "https://byruthub.org/page/" + i;
-            Document doc = Jsoup.connect(url).proxy(proxyHost, proxyPort).timeout(100000).userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36").data().get();
-            Elements movies = doc.select("div#dle-content div.short_item");
-            for (int j = 0; j < movies.size(); j++) {
-                String href = movies.get(j).select("div.short_img a").attr("href").split("-")[0];
-                String url1 = new URL(href).getPath();
-                Data data = new Data();
-                data.setGameId(Long.valueOf(url1.split("/")[1]));
-                List<Data> dataList = dataService.selectDataByTitle(data.getGameId());
-                if (dataList.isEmpty()) {
-
-                } else {
-                    if(containsChinese(dataList.get(0).getZhTitle())){
-
-                    }else {
-                        if(!dataList.get(0).getZhTitle().equals(dataList.get(0).getTitle())){
-
-                        }
-                    }
-                }
-            }
-        }
+        Document gameDoc = Jsoup.connect("https://store.steampowered.com/search/?term="+ URLEncoder.encode("Colin McRae DIRT")+"&ndl=1").proxy(proxyHost,proxyPort).timeout(100000).userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36").data().get();
+        Elements gameDetailUrl1 = gameDoc.select("div#search_resultsRows span.title");
+        System.out.println(gameDetailUrl1);
     }
 
     public static boolean containsChinese(String str) {
@@ -88,7 +78,7 @@ public class DataListController extends BaseController {
     }
 
     private void getGameInfo() throws Exception {
-        int pa = 948;
+        int pa = 923;
         String proxyHost = "127.0.0.1";
         int proxyPort = 7890;
         List<String> list = Lists.newArrayList();
@@ -99,9 +89,9 @@ public class DataListController extends BaseController {
         Elements pages = pageDoc.select("div.navigation div.pages a");
         Integer total = Integer.parseInt(pages.last().text());
         System.out.println(total);
-        for (int i = 948; i < total; i++) {
-            System.out.println("第---"+i+"---页");
-            String url = "https://byruthub.org/page/" + i;
+        for (int i = 987; i < total; i++) {
+            String url = "https://byruthub.org/page/" + i+"/";
+            System.out.println("第-----"+url);
             Document doc = Jsoup.connect(url).proxy(proxyHost, proxyPort).timeout(100000).userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36").data().get();
             Elements movies = doc.select("div#dle-content div.short_item");
             for (int j = 0; j < movies.size(); j++) {
@@ -110,12 +100,12 @@ public class DataListController extends BaseController {
                 listTitle.add(movie.select("div.short_title a").text());
             }
             for (int item = 0; item < list.size(); item++) {
+                System.out.println("--------------"+list.get(item));
                 Document docDetails = Jsoup.connect(list.get(item)).proxy(proxyHost, proxyPort).userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36").data().get();
                 Elements shortItem = docDetails.select("main.main article.main_content");
                 List<String> arr = Lists.newArrayList();
                 String title = listTitle.get(item);
                 String dlc = shortItem.select("div.min-details span.pr4").text();
-                System.out.println("downLoadCount-------" + dlc.equals(""));
                 if(dlc.equals("")){
                     continue;
                 }
@@ -179,7 +169,6 @@ public class DataListController extends BaseController {
                 dataChild.setImage(map.get("image"));
 
 
-
                 List<Data> dataList = dataService.selectDataByTitle(data.getGameId());
                 if (dataList.isEmpty()) {
                     dataService.insertData(data);
@@ -194,6 +183,7 @@ public class DataListController extends BaseController {
                 }
             }
             list.clear();
+            listTitle.clear();
         }
     }
     public static Double convertToKB(String sizeWithUnit) {
