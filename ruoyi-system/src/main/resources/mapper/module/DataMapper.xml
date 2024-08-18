@@ -20,6 +20,7 @@
         <result property="tagList" column="tag_list"/>
         <result property="gameSizeKb" column="game_size_kb"/>
         <result property="gameId" column="game_id"/>
+        <result property="createTime" column="create_time"/>
     </resultMap>
 
     <sql id="selectDataLimitVo">
@@ -125,7 +126,7 @@
             <if test="poster != null  and poster != ''">and poster = #{poster}</if>
             <if test="image != null  and image != ''">and image = #{image}</if>
         </where>
-        order by release_date desc
+        order by create_time desc
     </select>
 
     <select id="selectDataById" parameterType="Long" resultMap="DataResult">
@@ -150,6 +151,7 @@
             <if test="tagList != null">tag_list,</if>
             <if test="gameSizeKb != null">game_size_kb,</if>
             <if test="gameId != null">game_id,</if>
+            <if test="createTime != null">create_time,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="downLoadCount != null">#{downLoadCount},</if>
@@ -166,6 +168,7 @@
             <if test="tagList != null">#{tagList},</if>
             <if test="gameSizeKb != null">#{gameSizeKb},</if>
             <if test="gameId != null">#{gameId},</if>
+            <if test="createTime != null">#{createTime},</if>
         </trim>
     </insert>
 

@@ -1,3 +1,4 @@
+import config from "@/config/config.js";
 
 const waitingList = [] // 等待请求队列
 const excutingList = [] // 执行队列
@@ -24,7 +25,7 @@ function request({ url, data, params, method = 'GET', contentType, loading = fal
       title: '加载中'
     })
   }
-  const requsetUrl = "http://192.168.3.83:8080"+url
+  const requsetUrl = config.BASE_URL+url
   const requestTask = uni.request({
     url: requsetUrl,
     data,

@@ -41,9 +41,6 @@ public class DataListController extends BaseController {
     @Autowired
     private IDataChildService dataChildService;
 
-    @Autowired
-    private DataMapper dataMapper;
-
     @Anonymous
     @GetMapping(value = "add")
     public AjaxResult getInfo() throws Exception {
@@ -78,7 +75,6 @@ public class DataListController extends BaseController {
     }
 
     private void getGameInfo() throws Exception {
-        int pa = 923;
         String proxyHost = "127.0.0.1";
         int proxyPort = 7890;
         List<String> list = Lists.newArrayList();
@@ -88,10 +84,9 @@ public class DataListController extends BaseController {
         Document pageDoc = Jsoup.connect(pageUrl).proxy(proxyHost, proxyPort).timeout(100000).userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36").data().get();
         Elements pages = pageDoc.select("div.navigation div.pages a");
         Integer total = Integer.parseInt(pages.last().text());
-        System.out.println(total);
-        for (int i = 987; i < total; i++) {
+        for (int i = 50; i >=1; i--) {
             String url = "https://byruthub.org/page/" + i+"/";
-            System.out.println("第-----"+url);
+            System.out.println("第------------"+i+"---------页");
             Document doc = Jsoup.connect(url).proxy(proxyHost, proxyPort).timeout(100000).userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36").data().get();
             Elements movies = doc.select("div#dle-content div.short_item");
             for (int j = 0; j < movies.size(); j++) {
@@ -100,7 +95,7 @@ public class DataListController extends BaseController {
                 listTitle.add(movie.select("div.short_title a").text());
             }
             for (int item = 0; item < list.size(); item++) {
-                System.out.println("--------------"+list.get(item));
+                System.out.println("第------------"+i+"---------页的第"+item+"个游戏");
                 Document docDetails = Jsoup.connect(list.get(item)).proxy(proxyHost, proxyPort).userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36").data().get();
                 Elements shortItem = docDetails.select("main.main article.main_content");
                 List<String> arr = Lists.newArrayList();
@@ -120,7 +115,6 @@ public class DataListController extends BaseController {
                 arr.add("gameId-------" + url1.split("/")[1]);
 
 
-                System.out.println("title-------"+title);
                 List<String> listSteam = testGame.getInfoDetails(title);
                 if (listSteam.size()<=0){
                     continue;
@@ -148,8 +142,7 @@ public class DataListController extends BaseController {
                 data.setGameType(map.get("gameType"));
                 data.setPublisher(map.get("publisher"));
                 data.setTagList(map.get("tagList"));
-//                data.setCreateTime(new Date());
-                data.setUpdateTime(new Date());
+                data.setCreateTime(new Date());
 
                 DataChild dataChild = new DataChild();
                 dataChild.setMinSpec(map.get("minSpec"));

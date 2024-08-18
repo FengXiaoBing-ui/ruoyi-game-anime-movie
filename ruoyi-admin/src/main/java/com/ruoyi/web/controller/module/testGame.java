@@ -30,8 +30,8 @@ public class testGame {
         String gameDetailUrl = gameDoc.select("div#search_resultsRows a").get(0).attr("href");
         Elements gameTitle = gameDoc.select("div#search_resultsRows span.title");
         boolean flag = false;
-        for (int i = 0; i < gameTitle.size(); i++) {
-            if(name.equals(gameTitle.get(i).text())){
+        for (int i = 0; i < gameTitle.size() && !flag; i++) {
+            if(calculateSimilarity(name,gameTitle.get(i).text()) >= 70){
                 flag = true;
             }
         }
@@ -98,5 +98,33 @@ public class testGame {
         list.add("poster-------"+poster);
         list.add("image-------"+image);
         return list;
+    }
+
+    public static double calculateSimilarity(String s1, String s2) {
+        int distance = levenshteinDistance(s1, s2);
+        int maxLength = Math.max(s1.length(), s2.length());
+        double similarity = (maxLength - distance) / (double) maxLength * 100;
+        return similarity;
+    }
+
+    public static int levenshteinDistance(String s1, String s2) {
+        int[][] dp = new int[s1.length() + 1][s2.length() + 1];
+
+        for (int i = 0; i <= s1.length(); i++) {
+            dp[i][0] = i;
+        }
+        for (int j = 0; j <= s2.length(); j++) {
+            dp[0][j] = j;
+        }
+
+        for (int i = 1; i <= s1.length(); i++) {
+            for (int j = 1; j <= s2.length(); j++) {
+                int cost = (s1.charAt(i - 1) == s2.charAt(j - 1)) ? 0 : 1;
+                dp[i][j] = Math.min(
+                        Math.min(dp[i - 1][j] + 1, dp[i][j - 1] + 1),
+                        dp[i - 1][j - 1] + cost);
+            }
+        }
+        return dp[s1.length()][s2.length()];
     }
 }
