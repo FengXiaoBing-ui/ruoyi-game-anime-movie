@@ -9,12 +9,15 @@ import com.ruoyi.module.domain.Data;
 import com.ruoyi.module.mapper.DataMapper;
 import com.ruoyi.module.service.IDataChildService;
 import com.ruoyi.module.service.IDataService;
+import org.apache.commons.compress.utils.Lists;
+import org.apache.commons.lang.text.StrBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import com.ruoyi.module.domain.Data;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.LinkedHashSet;
 import java.util.List;
 
 /**
@@ -44,6 +47,29 @@ public class DataController extends BaseController {
         return getDataTable(list);
     }
 
+    /**
+     * 查询module列表
+     */
+    @GetMapping("/testList")
+    public void dataListLimit(Data data) {
+//        List<Data> list = dataService.selectDataListLimit(data);
+//        StringBuilder str = new StringBuilder();
+//        for (int i = 0; i < list.size(); i++) {
+//            String sentence = list.get(i).getGameType();
+//            str.append(sentence+" ");
+//        }
+//        String[] words = str.toString().split("\\s+"); // 以空格分割单词
+//        LinkedHashSet<String> set = new LinkedHashSet<>(); // 使用LinkedHashSet去重
+//        for (String word : words) {
+//            set.add(word);
+//        }
+//        // 将LinkedHashSet转换回String
+//        StringBuilder sb = new StringBuilder();
+//        for (String uniqueWord : set) {
+//            sb.append(uniqueWord).append(" ");
+//        }
+//        System.out.println(sb.toString().trim());
+    }
 
     /**
      * 导出module列表
