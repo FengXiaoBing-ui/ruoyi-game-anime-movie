@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.module.mapper.DataMapper">
+
+    <resultMap type="Data" id="DataResult">
+        <result property="id" column="id"/>
+        <result property="downLoadCount" column="down_load_count"/>
+        <result property="coverImg" column="cover_img"/>
+        <result property="zhTitle" column="zh_title"/>
+        <result property="title" column="title"/>
+        <result property="releaseDate" column="release_date"/>
+        <result property="developer" column="developer"/>
+        <result property="score" column="score"/>
+        <result property="gameUrl" column="game_url"/>
+        <result property="gameSize" column="game_size"/>
+        <result property="gameType" column="game_type"/>
+        <result property="publisher" column="publisher"/>
+        <result property="tagList" column="tag_list"/>
+        <result property="gameSizeKb" column="game_size_kb"/>
+        <result property="gameId" column="game_id"/>
+        <result property="abbreviation" column="abbreviation"/>
+    </resultMap>
+
+    <sql id="selectDataLimitVo">
+        select id,
+               down_load_count,
+               cover_img,
+               zh_title,
+               title,
+               release_date,
+               developer,
+               score,
+               game_size,
+               game_type,
+               publisher,
+               tag_list,
+               game_id,
+               abbreviation
+        from data
+    </sql>
+
+    <select id="selectDataListLimit" parameterType="Data" resultMap="DataResult">
+        SELECT id,
+        down_load_count,
+        cover_img,
+        zh_title,
+        release_date,
+        score,
+        game_type,
+        game_size,
+        title,
+        game_size_kb FROM `entertainment`.`data`
+        <where>
+            <if test="downLoadCount != null ">and down_load_count = #{downLoadCount}</if>
+            <if test="coverImg != null  and coverImg != ''">and cover_img = #{coverImg}</if>
+            <if test="zhTitle != null  and zhTitle != ''">and zh_title like concat('%', #{zhTitle}, '%')</if>
+            <if test="title != null  and title != ''">and ( title like concat('%', #{title}, '%') or (zh_title like concat('%', #{title}, '%')) or (abbreviation like concat('%', #{title}, '%')))
+            </if>
+            <if test="releaseDate != null  and releaseDate != ''">and release_date like concat('%', #{releaseDate},
+                '%')
+            </if>
+            <if test="developer != null  and developer != ''">and developer = #{developer}</if>
+            <if test="score != null  and score != ''">and score = #{score}</if>
+            <if test="gameUrl != null  and gameUrl != ''">and game_url = #{gameUrl}</if>
+            <if test="gameSize != null  and gameSize != ''">and game_size = #{gameSize}</if>
+            <if test="gameType != null  and gameType != ''">and game_type like concat('%', #{gameType}, '%')</if>
+            <if test="publisher != null  and publisher != ''">and publisher = #{publisher}</if>
+            <if test="tagList != null  and tagList != ''">and tag_list = #{tagList}</if>
+            <if test="gameId != null  and gameId != ''">and game_id = #{gameId}</if>
+        </where>
+
+        <if test="sortType != null  and sortType != ''">
+            <if test="sortType == 1">
+                ORDER BY down_load_count DESC,game_size_kb DESC,score DESC
+            </if>
+            <if test="sortType == 2">
+                ORDER BY score DESC,game_size_kb DESC,down_load_count DESC
+            </if>
+            <if test="sortType == 3">
+                ORDER BY update_time DESC,game_size_kb DESC,down_load_count DESC
+            </if>
+            <if test="sortType == 4">
+                ORDER BY game_size_kb DESC,down_load_count DESC,score DESC
+            </if>
+        </if>
+
+    </select>
+
+    <sql id="selectDataVo">
+        select id,
+               down_load_count,
+               cover_img,
+               zh_title,
+               title,
+               release_date,
+               developer,
+               score,
+               game_url,
+               game_size,
+               game_type,
+               publisher,
+               tag_list,
+               game_size_kb,
+               game_id
+        from data
+    </sql>
+
+    <select id="selectDataList" parameterType="Data" resultMap="DataResult">
+        <include refid="selectDataVo"/>
+        <where>
+            <if test="downLoadCount != null ">and down_load_count = #{downLoadCount}</if>
+            <if test="coverImg != null  and coverImg != ''">and cover_img = #{coverImg}</if>
+            <if test="zhTitle != null  and zhTitle != ''">and zh_title like concat('%', #{zhTitle}, '%')</if>
+            <if test="title != null  and title != ''">and (title like concat('%', #{title}, '%') or (zh_title like
+                concat('%', #{title}, '%')))
+            </if>
+            <if test="releaseDate != null  and releaseDate != ''">and release_date = #{releaseDate}</if>
+            <if test="developer != null  and developer != ''">and developer = #{developer}</if>
+            <if test="score != null  and score != ''">and score = #{score}</if>
+            <if test="gameUrl != null  and gameUrl != ''">and game_url = #{gameUrl}</if>
+            <if test="minSpec != null  and minSpec != ''">and min_spec = #{minSpec}</if>
+            <if test="recommendSpec != null  and recommendSpec != ''">and recommend_spec = #{recommendSpec}</if>
+            <if test="minSpec2 != null  and minSpec2 != ''">and min_spec2 = #{minSpec2}</if>
+            <if test="gameSize != null  and gameSize != ''">and game_size = #{gameSize}</if>
+            <if test="gameDesc != null  and gameDesc != ''">and game_desc = #{gameDesc}</if>
+            <if test="gameType != null  and gameType != ''">and game_type = #{gameType}</if>
+            <if test="gameIntroduce != null  and gameIntroduce != ''">and game_introduce = #{gameIntroduce}</if>
+            <if test="publisher != null  and publisher != ''">and publisher = #{publisher}</if>
+            <if test="tagList != null  and tagList != ''">and tag_list = #{tagList}</if>
+            <if test="steamLatelyMixed != null  and steamLatelyMixed != ''">and steam_lately_mixed =
+                #{steamLatelyMixed}
+            </if>
+            <if test="steamLatelyReviewDesc != null  and steamLatelyReviewDesc != ''">and steam_lately_review_desc =
+                #{steamLatelyReviewDesc}
+            </if>
+            <if test="steamAllPositive != null  and steamAllPositive != ''">and steam_all_positive =
+                #{steamAllPositive}
+            </if>
+            <if test="steamAllReviewDesc != null  and steamAllReviewDesc != ''">and steam_all_review_desc =
+                #{steamAllReviewDesc}
+            </if>
+            <if test="webmSource != null  and webmSource != ''">and webm_source = #{webmSource}</if>
+            <if test="webmHdSource != null  and webmHdSource != ''">and webm_hd_source = #{webmHdSource}</if>
+            <if test="mp4Source != null  and mp4Source != ''">and mp4_source = #{mp4Source}</if>
+            <if test="mp4HdSource != null  and mp4HdSource != ''">and mp4_hd_source = #{mp4HdSource}</if>
+            <if test="poster != null  and poster != ''">and poster = #{poster}</if>
+            <if test="image != null  and image != ''">and image = #{image}</if>
+        </where>
+        order by create_time desc
+    </select>
+
+    <select id="selectDataById" parameterType="Long" resultMap="DataResult">
+        <include refid="selectDataVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertData" parameterType="Data" useGeneratedKeys="true" keyProperty="id">
+        insert into data
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="downLoadCount != null">down_load_count,</if>
+            <if test="coverImg != null">cover_img,</if>
+            <if test="zhTitle != null">zh_title,</if>
+            <if test="title != null">title,</if>
+            <if test="releaseDate != null">release_date,</if>
+            <if test="developer != null">developer,</if>
+            <if test="score != null">score,</if>
+            <if test="gameUrl != null">game_url,</if>
+            <if test="gameSize != null">game_size,</if>
+            <if test="gameType != null">game_type,</if>
+            <if test="publisher != null">publisher,</if>
+            <if test="tagList != null">tag_list,</if>
+            <if test="gameSizeKb != null">game_size_kb,</if>
+            <if test="gameId != null">game_id,</if>
+            <if test="createTime != null">create_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="downLoadCount != null">#{downLoadCount},</if>
+            <if test="coverImg != null">#{coverImg},</if>
+            <if test="zhTitle != null">#{zhTitle},</if>
+            <if test="title != null">#{title},</if>
+            <if test="releaseDate != null">str_to_date(#{releaseDate},'%Y-%m-%d'),</if>
+            <if test="developer != null">#{developer},</if>
+            <if test="score != null">#{score},</if>
+            <if test="gameUrl != null">#{gameUrl},</if>
+            <if test="gameSize != null">#{gameSize},</if>
+            <if test="gameType != null">#{gameType},</if>
+            <if test="publisher != null">#{publisher},</if>
+            <if test="tagList != null">#{tagList},</if>
+            <if test="gameSizeKb != null">#{gameSizeKb},</if>
+            <if test="gameId != null">#{gameId},</if>
+            <if test="createTime != null">#{createTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateData" parameterType="Data">
+        update data
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="downLoadCount != null">down_load_count = #{downLoadCount},</if>
+            <if test="coverImg != null">cover_img = #{coverImg},</if>
+            <if test="zhTitle != null">zh_title = #{zhTitle},</if>
+            <if test="title != null">title = #{title},</if>
+            <if test="releaseDate != null">release_date = #{releaseDate},</if>
+            <if test="developer != null">developer = #{developer},</if>
+            <if test="score != null">score = #{score},</if>
+            <if test="gameUrl != null">game_url = #{gameUrl},</if>
+            <if test="gameSize != null">game_size = #{gameSize},</if>
+            <if test="gameType != null">game_type = #{gameType},</if>
+            <if test="publisher != null">publisher = #{publisher},</if>
+            <if test="tagList != null">tag_list = #{tagList},</if>
+            <if test="gameSizeKb != null">game_size_kb = #{gameSizeKb},</if>
+            <if test="gameId != null">game_id = #{gameId},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+
+
+    <delete id="deleteDataById" parameterType="Long">
+        delete
+        from data
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteDataByIds" parameterType="String">
+        delete from data where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="selectDataByTitle" parameterType="DataMovie" resultMap="DataResult">
+        <include refid="selectDataVo"/>
+        where game_id = #{gameId}
+    </select>
+
+    <select id="selectDataTitle" parameterType="DataMovie" resultMap="DataResult">
+        <include refid="selectDataVo"/>
+        where game_id = #{gameId}
+    </select>
+</mapper>
